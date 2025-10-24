@@ -19,6 +19,9 @@
     Completion = 单轮文本生成
   - chat 对话接口 
     Chat = 多轮对话 + 角色系统 + 更优性能
+- 配置.env 文件
+  - 从环境变量中获取 API 密钥
+  - 从环境变量中获取 baseURL
 
 ## LLM 
 - 来自openai
