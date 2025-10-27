@@ -59,7 +59,6 @@ img {
 
 .byline span {
   display: inline-block;
-  transform-style: preserve-3d;
   animation:spin-letter 10s linear infinite;
 }
 
