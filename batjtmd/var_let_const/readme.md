@@ -23,4 +23,3 @@
 ## 任务
 - leetcodehot 100 6-10题目 https://leetcode.cn/studyplan/top-100-liked/
 - 《你不知道的JavaScript》 第1-2章 写一篇学习笔记文章
-- 《JavaScript语言精粹》 第四章
