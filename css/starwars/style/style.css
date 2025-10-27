@@ -1,0 +1,130 @@
+/* 业务代码 */
+body {
+  height: 100vh;
+  background: url(../img/bg.jpg);
+}
+
+.starwars {
+  /* 
+  相对单位，相对于自身的字体大小
+  默认字体大小 16px
+  1em = 16px
+  34em = 544px
+  17em = 272px
+  */
+  width: 34em;
+  height: 17em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* 透视距离，模拟3D效果 */
+  perspective: 800px;
+  /* 子元素保持3D效果 */
+  transform-style: preserve-3d;
+}
+
+img {
+  width: 100%;
+}
+
+.star,
+.wars,
+.byline {
+  position: absolute;
+}
+
+.star {
+  top: -0.75em;
+  /* 动画属性：star 10秒 缓出 无限循环 */
+  animation:star 10s ease-out infinite;
+}
+
+.wars {
+  bottom: -0.5em;
+  animation:wars 10s ease-out infinite;
+}
+
+.byline {
+  left:-2em;
+  right:-2em;
+  top:45%;
+  text-align:center;
+  text-transform:uppercase;
+  letter-spacing:0.4em;
+  font-size:1.6em;
+  color:#fff;
+  animation:move-byline 10s linear infinite;
+}
+
+.byline span {
+  display: inline-block;
+  transform-style: preserve-3d;
+  animation:spin-letter 10s linear infinite;
+}
+
+/* 设计动作 动画的关键帧 */
+@keyframes star {
+  /* 每个关键帧写上属性 */
+  0% {
+    opacity: 0;
+    transform:scale(1.5) translateY(-0.75em);
+  }
+  20% {
+    opacity: 1;
+  }
+  89%{
+    opacity:1;
+    transform:scale(1);
+  }
+  100%{
+    opacity:0;
+    transform:translateZ(-1000em);
+  }
+}
+
+
+@keyframes wars {
+  0% {
+    opacity: 0;
+    transform:scale(1.5) translateY(0.5em);
+  }
+  20% {
+    opacity: 1;
+  }
+  90%{
+    opacity:1;
+    transform:scale(1);
+  }
+  100%{
+    opacity:0;
+    transform:translateZ(-1000em);
+  }
+}
+
+@keyframes move-byline {
+  0% {
+    transform:translateZ(25em);
+  }
+  100% {
+    transform:translateZ(0);
+  }
+}
+
+@keyframes spin-letter {
+  0%, 10%{
+    opacity:0;
+    transform:rotateY(90deg) translateZ(20px); /*添加Z轴位移增强3D效果*/
+  }
+  30%{
+    opacity:1;
+    transform:rotateY(0) translateZ(0);
+  }
+  70%,86%{
+    transform:rotateY(0) translateZ(0);
+    opacity:1;
+  }
+  95%{
+    opacity:0;
+  }
+}
