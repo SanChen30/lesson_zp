@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 端模型 智能前端开发新时代</title>
+</head>
+<body>
+
+    <script src="./brain.js"></script>
+    <script>
+        // 阻塞页面的渲染
+        const data = [
+            { "input": "implementing a caching mechanism improves performance", "output": "backend" },
+            { "input": "hover effects on buttons", "output": "frontend" },
+            { "input": "optimizing SQL queries", "output": "backend" },
+            { "input": "using flexbox for layout", "output": "frontend" },
+            { "input": "setting up a CI/CD pipeline", "output": "backend" },
+            { "input": "SVG animations for interactive graphics", "output": "frontend" },
+            { "input": "authentication using OAuth", "output": "backend" },
+            { "input": "responsive images for different screen sizes", "output": "frontend" },
+            { "input": "creating REST API endpoints", "output": "backend" },
+            { "input": "CSS grid for complex layouts", "output": "frontend" },
+            { "input": "database normalization for efficiency", "output": "backend" },
+            { "input": "custom form validation", "output": "frontend" },
+            { "input": "implementing web sockets for real-time communication", "output": "backend" },
+            { "input": "parallax scrolling effect", "output": "frontend" },
+            { "input": "securely storing user passwords", "output": "backend" },
+            { "input": "creating a theme switcher (dark/light mode)", "output": "frontend" },
+            { "input": "load balancing for high traffic", "output": "backend" },
+            { "input": "accessibility features for disabled users", "output": "frontend" },
+            { "input": "scalable architecture for growing user base", "output": "backend" }
+        ];
+
+        // 创建一个 LSTM (长短期记忆网络) 循环神经网络的实例
+        const network = new brain.recurrent.LSTM();
+        // 训练神经网络,把数据给它学习一下
+        network.train(data,{
+            iterations:2000, //训练迭代次数
+            log:true, //启用训练日志：在控制台输出训练过程的进度和指标
+            logPeriod:100, //日志记录频率：每训练 100次迭代 输出一次日志
+        });
+        const output = network.run(
+            "CSS flex for complex layouts"
+        );
+        console.log(output);
+    </script>
+</body>
+
+</html>
