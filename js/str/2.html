@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板字符串</title>
+</head>
+
+<body>
+    <div id="todos"></div>
+    <script>
+        const todos = [
+            {
+                id: 1,
+                title: "学习ES6"
+            },
+            {
+                id: 2,
+                title: "通读你不知道的JavaScript"
+            }
+        ];
+        // dom编程
+        const todosEl = document.getElementById("todos");
+        console.log(todosEl,Object.prototype.toString.call(todosEl));
+
+        // template string 支持换行
+        todosEl.innerHTML = `
+        <ul>
+            ${
+                // 占位符
+                // js运行区域
+                // map 迭代数组的每一个元素,并返回一个新的数组
+                todos.map(todo => `
+                    <li>${todo.title}</li>
+                `).join('')
+            }
+        </ul>
+        `
+    </script>
+</body>
+
+</html>
