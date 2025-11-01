@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- layout 居中， 左右auto  -->
+    <div class="container">
+
+        <!-- 一行 -->
+        <div class="row">
+            <div class="col-md-6">
+                <form name="appForm">
+
+                    <div class="form-group">
+                        <label for="titleInput">Bot名称：</label>
+                        <input placeholder="请输入名称" id="titleInput" name="title" type="text" required
+                            class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descInput">Bot描述：</label>
+                        <textarea placeholder="请输入描述" class="form-control" id="descInput" name="desc"
+                            rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default btn-primary" id="submitBtn">生成图标</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- DOM 动态插入logo appendchild -->
+        <div class="row" id="logo"></div>
+    </div>
+
+    <script>
+
+        // form 可以用 name 属性来查找
+        // document.forms 是一个类数组对象，包含了所有的表单元素
+        const oForm = document.forms["appForm"];
+        // 事件处理函数，this指向事件源元素
+        oForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // 阻止表单默认提交行为
+            const appName = this["title"].value;
+            const appDesc = this["desc"].value;
+            const prompt = `
+你是一个互联网大厂的设计师，需要设计一个移动应用的logo，
+应用名称为${appName}，
+描述为${appDesc}。
+设计一个高端、大气、上档次的logo，
+请确保设计方案适用于移动应用图标（App Icon）。
+`
+            // console.log(prompt);
+            fetch('https://api.agicto.cn/v1/images/generations', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer sk-UYTJpmWZ1UIDvbqsnM8AQOaXuHIa6REcs1tc1OTaLOYrUiXM',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: "dall-e-3",
+                    prompt,
+                    n: 1,
+                    size: "1024x1024"
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // 检查是否有错误码
+                    if (data && data.code && data.code !== 0) {
+                        // 处理API业务错误
+                        const errorMessage = data.message || 'API调用失败';
+                        console.error('API返回错误:', errorMessage, data);
+                        // 特别处理余额不足的情况
+                        if (errorMessage.includes('money') || errorMessage.includes('余额') || errorMessage.includes('recharge')) {
+                            alert('API调用失败：余额不足，请充值后再试');
+                        } else {
+                            alert(`API调用失败：${errorMessage}`);
+                        }
+                    } else if (data && data.data && data.data.length > 0 && data.data[0].url) {
+                        // 成功情况
+                        const img = document.createElement('img');
+                        img.src = data.data[0].url;
+                        img.className = 'img-responsive'; // 添加响应式样式
+                        img.onload = function() {
+                            document.getElementById('logo').appendChild(img);
+                        }
+                    } else {
+                        // 数据格式问题
+                        console.error('API返回的数据格式不符合预期', data);
+                        alert('无法获取logo图片，数据格式异常');
+                    }
+                })
+                .catch((error) => {
+                    // 处理网络错误
+                    console.error('网络错误:', error);
+                    alert('网络连接失败，请检查您的网络连接后重试');
+                });
+            });
+
+
+    </script>
+</body>
+
+</html>
