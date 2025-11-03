@@ -58,56 +58,32 @@
 设计一个高端、大气、上档次的logo，
 请确保设计方案适用于移动应用图标（App Icon）。
 `
-            // console.log(prompt);
             fetch('https://api.agicto.cn/v1/images/generations', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer sk-UYTJpmWZ1UIDvbqsnM8AQOaXuHIa6REcs1tc1OTaLOYrUiXM',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    model: "dall-e-3",
-                    prompt,
-                    n: 1,
-                    size: "1024x1024"
-                })
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer sk-7loPzCx4a5oyq9Vc9aiqiRbRyBUfwbue7KOFqb6Jd4QbY5XU',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+                model: "dall-e-3",
+                prompt,
+                n: 1,
+                size: "1024x1024"
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // 检查是否有错误码
-                    if (data && data.code && data.code !== 0) {
-                        // 处理API业务错误
-                        const errorMessage = data.message || 'API调用失败';
-                        console.error('API返回错误:', errorMessage, data);
-                        // 特别处理余额不足的情况
-                        if (errorMessage.includes('money') || errorMessage.includes('余额') || errorMessage.includes('recharge')) {
-                            alert('API调用失败：余额不足，请充值后再试');
-                        } else {
-                            alert(`API调用失败：${errorMessage}`);
-                        }
-                    } else if (data && data.data && data.data.length > 0 && data.data[0].url) {
-                        // 成功情况
-                        const img = document.createElement('img');
-                        img.src = data.data[0].url;
-                        img.className = 'img-responsive'; // 添加响应式样式
-                        img.onload = function() {
-                            document.getElementById('logo').appendChild(img);
-                        }
-                    } else {
-                        // 数据格式问题
-                        console.error('API返回的数据格式不符合预期', data);
-                        alert('无法获取logo图片，数据格式异常');
-                    }
-                })
-                .catch((error) => {
-                    // 处理网络错误
-                    console.error('网络错误:', error);
-                    alert('网络连接失败，请检查您的网络连接后重试');
-                });
-            });
-
-
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            const img = document.createElement('img');
+            img.src = data.data[0].url;
+            img.onload = function() {
+              document.getElementById('logo').appendChild(img);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+  })
     </script>
 </body>
 
