@@ -28,4 +28,12 @@
 2. 工具 -> 构建 npm
 
 3. 引入组件：在`index.json`中引入`vant`中的组件
+   
+```js
+{
+  "usingComponents": {
+    "van-search":"vant-weapp/search/index"
+  }
+}
+```
 
