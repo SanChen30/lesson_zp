@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="theme.css">
+    <style>
+        /* 选择器的优先级：!important > 内联样式 > ID 选择器 > 类选择器 > 标签选择器 */
+        p {
+            color: blue!important;
+        }
+
+        .highlight {
+            color: green;
+        }
+
+        #p7{
+            color:pink;
+        }
+    </style>
+</head>
+
+<body>
+    <p id="p7" class="highlight" style="color:red;">这段文字是什么颜色？</p>
+</body>
+
+</html>
