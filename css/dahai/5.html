@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nth-child VS nth-of-type 示例</title>
+    <style>
+        /* nth-child 选择器 */
+        /* 既要是p标签也要是第二个孩子 */
+        p:nth-child(2) {  
+            color: red;
+        }
+        /* nth-of-type 选择器 */
+        /* 既要是p标签也要是第二个p元素 */
+        p:nth-of-type(2) {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>nth-child VS nth-of-type 示例</h1>
+        <p>这是一个段落。</p>  <!-- 第二个孩子，红色 -->
+        <div>这是一个div。</div>
+        <p>这是第二个段落。</p>  <!-- 第二个p元素，蓝色 -->
+        <p>这是第三个段落。</p>
+        <div>这是第二个div。</div>
+    </div>
+</body>
+
+</html>

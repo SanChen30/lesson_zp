@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伪类选择器</title>
+    <style>
+        button:active {
+            background-color: red;
+            color: white;
+        }
+
+        p:hover {
+            background-color: yellow;
+        }
+
+        ::selection {
+            background-color: blue;
+            color: white;
+        }
+
+        /* 增强input:focus样式，添加样式重置确保效果可见 */
+        input[type="text"] {
+            border: 1px solid #ccc;
+            /* 设置默认边框 */
+            outline: none;
+            /* 移除默认的outline */
+            padding: 8px;
+        }
+
+        input[type="text"]:focus {
+            border: 2px solid green !important;
+            /* 使用!important提高优先级 */
+            box-shadow: 0 0 5px rgba(0, 128, 0, 0.3);
+            /* 添加阴影增强视觉效果 */
+        }
+
+        /* 增强checkbox和label的样式 */
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        input[type="checkbox"]:checked+label {
+            color: red;
+            font-weight: bold;
+            /* 添加粗体增强效果 */
+            text-decoration: underline;
+            /* 添加下划线使变化更明显 */
+        }
+
+        li:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        li:nth-child(odd) {
+            background-color: lightgrey;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>伪类选择器示例</h1>
+        <button>点击我</button>
+        <p>鼠标悬浮在这里</p>
+        <input type="text" placeholder="输入框">
+        <input type="checkbox" id="option1">
+        <label for="option1">选项1</label>
+        <input type="checkbox" id="option2" checked>
+        <label for="option2">选项2</label>
+        <ul>
+            <li>列表项1</li>
+            <li>列表项2</li>
+            <li>列表项3</li>
+            <li>列表项4</li>
+        </ul>
+    </div>
+</body>
+
+</html>
