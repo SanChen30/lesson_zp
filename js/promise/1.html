@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>异步 Async</title>
+</head>
+<body>
+    <script>
+        // 代码的编写顺序
+        // 代码的执行顺序
+        console.log(1);
+        // 定时器 setTimeout 是异步的，不会阻塞后续代码的执行
+        // 等？ c++/java 等，同步代码执行完毕后，才会执行异步代码
+        // js 不等，是因为 js 是单线程的脚本语言，只能同时执行一个任务
+        // 响应用户的事件，页面可能会滚动，重新渲染页面
+        // 代码执行是线程负责的，浏览器会在合适的时机，调用线程执行异步代码
+        // setTimeout 异步代码，会在 1000 毫秒后，调用线程执行
+        // 线程执行时，会将异步代码放入事件循环中（event loop）
+        // 等同步代码执行完毕后，才会从事件循环中取出异步代码执行
+        setTimeout(function(){
+            console.log(2);
+        }, 3000);
+        console.log(3);
+    </script>
+</body>
+</html>

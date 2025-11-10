@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="members">
+    </ul>
+
+
+    <script>
+        //异步变同步，让 then 里的回调函数 等 fetch 拿到数据后再执行
+        fetch('https://api.github.com/orgs/lemoncode/members')
+        .then(data => data.json())
+        .then(res => {
+            console.log(res);
+            document.getElementById("members").innerHTML = 
+            res.map(item => `<li>${item.login}</li>`).join('');
+        })
+
+
+        // console.log(fetch('https://api.github.com/orgs/lemoncode/members'));
+    </script>
+</body>
+</html>
