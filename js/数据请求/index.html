@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax 数据请求</title>
+</head>
+
+<body>
+    <ul id="members"></ul>
+    <script>
+        // js 异步主动请求数据，界面的动态更新
+        // console.log(fetch('https://api.github.com/orgs/lemoncode/members'));
+        // url 接口地址
+        // 网络请求 request 
+        // 服务器响应 response
+        // 响应数据解析 json()
+        // 处理响应数据
+
+
+        // 这段代码创建了一个XMLHttpRequest对象，它可以主动发起HTTP请求。
+        // 虽然现在大多数API返回JSON格式数据，但XHR同样能够处理XML响应 - 当服务器返回XML时，您可以通过xhr.responseXML属性获取已解析的XML文档对象，
+        // 然后使用DOM操作方法如getElementsByTagName()来提取和处理其中的数据。
+        const xhr = new XMLHttpRequest();
+        console.log(xhr.readyState,'==========='); // true：0 false：0
+        // 打开一个请求
+        // 参数1：指定HTTP请求方法为GET（获取数据）
+        // 参数2：请求的目标URL
+        // 参数3：true表示使用异步模式，false表示同步模式
+        // 简单说：异步向GitHub API发起GET请求，获取lemoncode组织的成员数据
+        xhr.open('GET','https://api.github.com/orgs/lemoncode/members',false);
+        // 发送请求
+        console.log(xhr.readyState,'==========='); // true：1 false：1
+        xhr.send();
+        console.log(xhr.readyState,'==========='); // true：1 false：4 
+        // 事件监听 状态变化
+        // console.log(xhr.readyState);  如果是false 同步模式，在这里就可以打印结果，不用进行下面的onreadystatechange事件，send之后就可以打印结果，因为等了它，readyState变成了4
+        xhr.onreadystatechange = function(){
+            console.log(xhr.readyState,'==========='); // true：2、3、4 状态变化 false：无打印
+            // xhr.readyState === 4 - 表示请求已完成，响应已就绪
+            // xhr.status === 200 - 表示HTTP请求成功（200状态码）
+            // 只有当这两个条件同时满足时，才说明HTTP请求已成功完成并且可以安全地处理响应数据。这是一种标准的XHR完成状态检查模式。
+            if(xhr.status === 200 && xhr.readyState === 4){
+                console.log(xhr.responseText, typeof xhr.responseText); // string
+                // 解析 json 格式数据
+                const data = JSON.parse(xhr.responseText); // string => object
+                console.log(data); 
+                // 处理响应数据
+                document.getElementById('members').innerHTML = data.map(item => `<li>${item.login}</li>`).join('');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
