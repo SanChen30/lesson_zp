@@ -26,29 +26,32 @@ graph TD
 
 ## 2. 技术描述
 
-- **前端**: React@18 + TypeScript@5 + Vite@5 + Tailwind CSS@3
-- **后端**: Supabase (BaaS平台，提供认证、数据库、存储服务)
-- **支付**: 微信支付API集成
-- **部署**: Vercel (前端) + Supabase (后端服务)
+* **前端**: React\@18 + TypeScript\@5 + Vite\@5 + Tailwind CSS\@3
+
+* **后端**: Supabase (BaaS平台，提供认证、数据库、存储服务)
+
+* **支付**: 微信支付API集成
+
+* **部署**: Vercel (前端) + Supabase (后端服务)
 
 ## 3. 路由定义
 
-| 路由 | 用途 |
-|------|------|
-| / | 首页，展示轮播图、热门绘本和导航 |
-| /login | 登录页面，支持手机号和微信登录 |
-| /register | 注册页面，完善用户信息和孩子档案 |
-| /books | 绘本馆页面，分类浏览所有绘本 |
-| /books/:id | 绘本详情页，展示具体绘本信息和购买选项 |
-| /activities | 亲子活动页面，展示所有活动列表 |
-| /activities/:id | 活动详情页，展示活动详情和报名功能 |
-| /reading-record | 阅读记录页面，展示用户阅读历史 |
-| /profile | 用户中心，管理个人信息和设置 |
-| /profile/children | 孩子档案管理页面 |
-| /profile/orders | 订单管理页面，查看历史订单 |
-| /cart | 购物车页面，管理待购买商品 |
-| /checkout | 结算页面，确认订单和支付 |
-| /order-success | 订单成功页面，展示支付结果 |
+| 路由                | 用途                  |
+| ----------------- | ------------------- |
+| /                 | 首页，展示轮播图、热门绘本和导航    |
+| /login            | 登录页面，支持手机号和微信登录     |
+| /register         | 注册页面，完善用户信息和孩子档案    |
+| /books            | 绘本馆页面，分类浏览所有绘本      |
+| /books/:id        | 绘本详情页，展示具体绘本信息和购买选项 |
+| /activities       | 亲子活动页面，展示所有活动列表     |
+| /activities/:id   | 活动详情页，展示活动详情和报名功能   |
+| /reading-record   | 阅读记录页面，展示用户阅读历史     |
+| /profile          | 用户中心，管理个人信息和设置      |
+| /profile/children | 孩子档案管理页面            |
+| /profile/orders   | 订单管理页面，查看历史订单       |
+| /cart             | 购物车页面，管理待购买商品       |
+| /checkout         | 结算页面，确认订单和支付        |
+| /order-success    | 订单成功页面，展示支付结果       |
 
 ## 4. 数据模型
 
@@ -192,6 +195,7 @@ erDiagram
 ### 4.2 数据定义语言
 
 用户表 (users)
+
 ```sql
 -- 创建用户表
 CREATE TABLE users (
@@ -217,6 +221,7 @@ GRANT ALL PRIVILEGES ON users TO authenticated;
 ```
 
 孩子档案表 (children)
+
 ```sql
 -- 创建孩子档案表
 CREATE TABLE children (
@@ -239,6 +244,7 @@ GRANT ALL PRIVILEGES ON children TO authenticated;
 ```
 
 绘本表 (books)
+
 ```sql
 -- 创建绘本表
 CREATE TABLE books (
@@ -267,7 +273,8 @@ GRANT SELECT ON books TO anon;
 GRANT ALL PRIVILEGES ON books TO authenticated;
 ```
 
-阅读记录表 (reading_records)
+阅读记录表 (reading\_records)
+
 ```sql
 -- 创建阅读记录表
 CREATE TABLE reading_records (
@@ -295,6 +302,7 @@ GRANT ALL PRIVILEGES ON reading_records TO authenticated;
 ```
 
 订单表 (orders)
+
 ```sql
 -- 创建订单表
 CREATE TABLE orders (
@@ -325,19 +333,22 @@ GRANT ALL PRIVILEGES ON orders TO authenticated;
 ### 5.1 认证相关API
 
 用户注册
+
 ```
 POST /api/auth/register
 ```
 
 请求参数：
-| 参数名 | 参数类型 | 是否必需 | 描述 |
-|--------|----------|----------|------|
-| phone | string | true | 手机号 |
-| password | string | true | 密码 |
-| nickname | string | true | 用户昵称 |
-| verification_code | string | true | 短信验证码 |
+
+| 参数名                | 参数类型   | 是否必需 | 描述    |
+| ------------------ | ------ | ---- | ----- |
+| phone              | string | true | 手机号   |
+| password           | string | true | 密码    |
+| nickname           | string | true | 用户昵称  |
+| verification\_code | string | true | 短信验证码 |
 
 响应：
+
 ```json
 {
   "success": true,
@@ -355,20 +366,23 @@ POST /api/auth/register
 ### 5.2 绘本相关API
 
 获取绘本列表
+
 ```
 GET /api/books
 ```
 
 查询参数：
-| 参数名 | 参数类型 | 是否必需 | 描述 |
-|--------|----------|----------|------|
-| category | string | false | 分类筛选 |
-| age_min | integer | false | 最小年龄 |
-| age_max | integer | false | 最大年龄 |
-| page | integer | false | 页码，默认1 |
-| limit | integer | false | 每页数量，默认20 |
+
+| 参数名      | 参数类型    | 是否必需  | 描述        |
+| -------- | ------- | ----- | --------- |
+| category | string  | false | 分类筛选      |
+| age\_min | integer | false | 最小年龄      |
+| age\_max | integer | false | 最大年龄      |
+| page     | integer | false | 页码，默认1    |
+| limit    | integer | false | 每页数量，默认20 |
 
 响应：
+
 ```json
 {
   "success": true,
@@ -395,36 +409,41 @@ GET /api/books
 ### 5.3 阅读记录API
 
 记录阅读进度
+
 ```
 POST /api/reading-records
 ```
 
 请求参数：
-| 参数名 | 参数类型 | 是否必需 | 描述 |
-|--------|----------|----------|------|
-| child_id | string | true | 孩子ID |
-| book_id | string | true | 绘本ID |
-| duration_minutes | integer | false | 阅读时长(分钟) |
-| progress_percent | integer | false | 阅读进度(0-100) |
-| is_completed | boolean | false | 是否完成 |
+
+| 参数名               | 参数类型    | 是否必需  | 描述          |
+| ----------------- | ------- | ----- | ----------- |
+| child\_id         | string  | true  | 孩子ID        |
+| book\_id          | string  | true  | 绘本ID        |
+| duration\_minutes | integer | false | 阅读时长(分钟)    |
+| progress\_percent | integer | false | 阅读进度(0-100) |
+| is\_completed     | boolean | false | 是否完成        |
 
 ### 5.4 订单相关API
 
 创建订单
+
 ```
 POST /api/orders
 ```
 
 请求参数：
-| 参数名 | 参数类型 | 是否必需 | 描述 |
-|--------|----------|----------|------|
-| items | array | true | 订单商品列表 |
-| shipping_address | object | true | 收货地址信息 |
+
+| 参数名               | 参数类型   | 是否必需 | 描述     |
+| ----------------- | ------ | ---- | ------ |
+| items             | array  | true | 订单商品列表 |
+| shipping\_address | object | true | 收货地址信息 |
 
 items数组元素：
-| 参数名 | 参数类型 | 是否必需 | 描述 |
-|--------|----------|----------|------|
-| book_id | string | true | 绘本ID |
+
+| 参数名      | 参数类型    | 是否必需 | 描述   |
+| -------- | ------- | ---- | ---- |
+| book\_id | string  | true | 绘本ID |
 | quantity | integer | true | 购买数量 |
 
 ## 6. 前端组件结构
@@ -477,19 +496,29 @@ src/
 
 使用Zustand进行状态管理，主要包含以下store：
 
-- **authStore**: 用户认证状态、登录信息、权限管理
-- **cartStore**: 购物车状态、添加删除商品、数量管理
-- **bookStore**: 绘本数据缓存、分类筛选、搜索状态
-- **activityStore**: 活动数据、报名状态、活动筛选
+* **authStore**: 用户认证状态、登录信息、权限管理
+
+* **cartStore**: 购物车状态、添加删除商品、数量管理
+
+* **bookStore**: 绘本数据缓存、分类筛选、搜索状态
+
+* **activityStore**: 活动数据、报名状态、活动筛选
 
 ### 6.3 响应式设计
 
-- 断点设置：
-  - 移动端：320px - 767px
-  - 平板端：768px - 1023px  
-  - 桌面端：1024px+
+* 断点设置：
 
-- 适配策略：
-  - 移动端：单列布局，底部导航
-  - 平板端：双列网格，侧边导航
-  - 桌面端：最大宽度限制，居中显示
+  * 移动端：320px - 767px
+
+  * 平板端：768px - 1023px
+
+  * 桌面端：1024px+
+
+* 适配策略：
+
+  * 移动端：单列布局，底部导航
+
+  * 平板端：双列网格，侧边导航
+
+  * 桌面端：最大宽度限制，居中显示
+

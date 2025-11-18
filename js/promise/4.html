@@ -13,7 +13,7 @@
     <script>
         //异步变同步，让 then 里的回调函数 等 fetch 拿到数据后再执行
         fetch('https://api.github.com/orgs/lemoncode/members')
-        .then(data => data.json())
+        .then(data => data.json()) // 解析 HTTP 响应内容为 JSON 格式的方法
         .then(res => {
             console.log(res);
             document.getElementById("members").innerHTML = 
@@ -21,7 +21,7 @@
         })
 
 
-        // console.log(fetch('https://api.github.com/orgs/lemoncode/members'));
+        console.log(fetch('https://api.github.com/orgs/lemoncode/members')); // Promise对象
     </script>
 </body>
 </html>
