@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // es6 类的定义
+        // class Person{
+        //     constructor(name, age){
+        //         this.name = name;
+        //         this.age = age;
+        //     }
+        //     sayHi(){
+        //         console.log('你好，我是' + this.name);
+        //     }
+        // }
+
+        // es5 没有class，所以需要抽象一个类的模板(属性、方法)
+        // 第一步 属性的创建，构造函数
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        // 方法开销大，没有必要拥有自己的方法，可以都放在原型对象中
+        // 第二步 方法的创建，原型对象
+
+        // 此时 Person.prototype 是 JS 引擎自动创建的对象，结构类似于:
+        Person.prototype = {
+            constructor: Person,  // ← 自动设置
+            __proto__: Object.prototype
+        };
+
+        // 重写了prototype，会导致 constructor 指向错误，没有了 constructor 属性
+        Person.prototype = {
+            constructor: Person,//手动恢复 constructor
+            speci: '人类',
+            sayHi: function () {
+                console.log('你好，我是' + this.name);
+            }
+        }
+
+        const p1 = new Person('张三', 18);
+        p1.sayHi();
+
+        console.log(p1.__proto__ == Person.prototype); //true
+
+        console.log(Person.prototype.constructor == Person); //true
+
+        // 得到对象的原型对象
+        console.log(Object.getPrototypeOf(p1) == Person.prototype); //true
+    </script>
+</body>
+
+</html>

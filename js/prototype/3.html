@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Person.prototype 也是函数是对象的表现，实例原型
+        // constructor + prototype = 抽象的类
+        // 构造函数首字母大写
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        // 重写了prototype
+        Person.prototype = {
+            constructor: Person,//手动恢复 constructor  
+            speci: '人类',
+        }
+
+        var p1 = new Person('张三', 18);
+        console.log(p1.__proto__ == Person.prototype); //true
+
+        console.log(Person);
+        console.log(Person.prototype.constructor);
+        console.log(Person == Person.prototype.constructor); //true
+
+    </script>
+</body>
+
+</html>

@@ -3,87 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>通用原生HTML/CSS/JS项目</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>HTTP请求调用LLM</title>
+    <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">通用项目</div>
-            <ul class="nav-links">
-                <li><a href="#">首页</a></li>
-                <li><a href="#features">功能</a></li>
-                <li><a href="#components">组件</a></li>
-                <li><a href="#contact">联系我们</a></li>
-            </ul>
-            <div class="mobile-menu">
-                <button id="menu-toggle">&#9776;</button>
-            </div>
-        </nav>
-        <div class="hero">
-            <h1>通用原生HTML/CSS/JS项目</h1>
-            <p>一个基于原生Web技术构建的现代化项目模板</p>
-            <button class="primary-btn">开始使用</button>
-        </div>
-    </header>
-
-    <main>
-        <section id="features">
-            <h2>核心功能</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>性能优化</h3>
-                    <p>采用最佳实践，确保网页加载速度和运行性能</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>响应式设计</h3>
-                    <p>适配各种屏幕尺寸，提供一致的用户体验</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>现代化UI</h3>
-                    <p>简洁优雅的界面设计，注重用户体验</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="components">
-            <h2>示例组件</h2>
-            <!-- 这里将添加示例组件 -->
-            <div id="component-container">
-                <!-- JavaScript将在这里动态加载组件 -->
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <h3>关于项目</h3>
-                <p>这是一个通用的原生HTML/CSS/JS项目模板，可用于快速启动Web开发项目。</p>
-            </div>
-            <div class="footer-links">
-                <h3>快速链接</h3>
-                <ul>
-                    <li><a href="#">首页</a></li>
-                    <li><a href="#features">功能</a></li>
-                    <li><a href="#components">组件</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h3>联系我们</h3>
-                <p>邮箱: contact@example.com</p>
-                <p>电话: +86 123 4567 8910</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2023 通用项目. 保留所有权利.</p>
-        </div>
-    </footer>
-
-    <script src="js/app.js"></script>
+    <h1>Hello DeepSeek</h1>
+    <div id="reply"></div>
+    <script type="module" src="./main.js"></script>
 </body>
 </html>

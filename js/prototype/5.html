@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype = {
+            // 显式设置constructor属性，确保constructor指向正确的构造函数
+            constructor: Person,
+            speci: '人类',
+            sayHi: function () {
+                console.log('你好，我是' + this.name);
+            },
+            toString: function () {
+                return '我是' + this.name + '，我今年' + this.age + '岁';
+            }
+        };
+        var p1 = new Person('张三', 18);
+
+        // 原型对象是独立于实例对象之外的，二者是分得开的
+        p1.speci = '人'; // 实例属性，不会影响原型对象
+
+
+        // 如果实例上有属性，就不会去查找原型对象上的属性
+        console.log(p1, p1.speci, p1.__proto__);
+
+        console.log(p1.toString()); //我是张三，我今年18岁
+        console.log(p1.__proto__.toString()); //我是undefined，我今年undefined岁
+    </script>
+</body>
+
+</html>
