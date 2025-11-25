@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件委托</title>
+</head>
+<body>
+    <ul id="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+
+    <script>
+        // const lis = document.getElementById('list').children;
+        // for(let i =0; i< lis.length; i++){
+        //     lis[i].addEventListener('click',function(){
+        //         console.log(this.innerHTML);
+        //     })
+        // }
+
+        document.getElementById('list').addEventListener('click',function(event){
+            // 只监听外层节点，但 li 中任何一个元素被点击，都会触发事件，n个li事件节省为一个事件监听
+            // 事件对象一定会有一个target属性，指向触发事件的元素
+            console.log(event.target.innerHTML);
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        const wes = Symbol('Wes');
+        const person = Symbol('Wes');
+        // console.log( wes == person); // false
+
+
+
+        const classRoom = {
+            [Symbol('Mark')]: { grade: 50, gender: 'male' },
+            [Symbol('Oliva')]: { grade: 80, gender: 'female' },
+            [Symbol('oliva')]: { grade: 90, gender: 'female' },
+            zengsan: { grade: 70, gender: 'male' }
+        }
+        // console.log(classRoom);
+
+        // 遍历数组用 for of
+        // 遍历对象用 for in
+        // symbol key 不可以被枚举
+        for (const person in classRoom) {
+            console.log(classRoom[person]);
+        }
+
+        // 专属API Object.getOwnPropertySymbols() 可以获取对象所有的symbol key
+        const syms = Object.getOwnPropertySymbols(classRoom);
+        console.log(syms); // [Symbol(Mark), Symbol(Oliva), Symbol(oliva)]
+        const data = syms.map(item => classRoom[item]);
+        console.log(data); // [{grade:50,gender:'male'}, {grade:80,gender:'female'}, {grade:90,gender:'female'}]
+
+    </script>
+</body>
+
+</html>

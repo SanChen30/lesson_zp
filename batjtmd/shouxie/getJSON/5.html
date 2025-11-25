@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 在赋值之前，arr 和 arr2 就已经在编译阶段放入了词法环境，分配了栈内存
+        // 而数组是复杂数据类型，存储在堆内存中，栈内存中存储的是指向堆内存的地址
+        const arr = [1,2,3,4,5,6];
+
+        // 数组拼接，开销小
+        const arr2 = [].concat(arr); 
+        arr2[0] = 0;
+        console.log(arr,arr2);
+
+        // 重新申请一块空间，开销大
+        const arr3 = JSON.parse(JSON.stringify(arr)); // 深拷贝
+        arr3[0] = 100;
+        console.log(arr,arr3);
+    </script>
+</body>
+</html>

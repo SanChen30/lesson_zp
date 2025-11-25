@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写sleep函数</title>
+</head>
+
+<body>
+    <script>
+        // setTimeout 调度，告诉 JavaScript 引擎：“等 X 毫秒后，帮我执行这个函数。” 它会去做别的同步操作，不会阻塞其他代码的执行。
+        // sleep 流程暂停，在一个连续的异步操作流中，插入一段等待时间。
+        // sleep 让你写出“顺序等待”的逻辑，而 setTimeout 只是“未来某个时间点做某事”。
+
+        function sleep(n) {
+            let p;
+            p = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log(p); // pending 等待
+                    // resolve();
+                    reject();
+                    console.log(p); // fulfilled/rejected 成功/失败
+                }, n);
+            });
+            return p;
+        }
+        sleep(3000)
+            .then(() => {
+                console.log('3秒后执行');
+            })
+            .catch(() => {
+                console.log('error');
+            })
+            .finally(() => {
+                // promise 状态从 pending 到了 fulfilled 或 rejected 状态，就会执行 finally 方法
+                console.log('finally');
+            });
+    </script>
+</body>
+
+</html>
