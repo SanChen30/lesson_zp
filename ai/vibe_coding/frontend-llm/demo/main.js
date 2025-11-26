@@ -6,7 +6,7 @@ const endpoint = 'https://api.deepseek.com/chat/completions';
 const headers = {
     'content-Type':'application/json',
     // api key 是请求令牌
-    'Authorization':'Bearer sk-148ec891b2a841b8943658bfac6638ef'
+    'Authorization':`Bearer ${import.meta.env.VITE_DEEPSEEK_API_KEY}`   
 }
 
 // 请求体
@@ -28,13 +28,23 @@ const payload = {
     ]
 }
 
-const response = await fetch(endpoint,{
-    // POST 比 GET 更安全，因为 POST 不会将数据暴露在 URL 中，并且会带上请求体
-    method:'POST',
-    headers,
-    body:JSON.stringify(payload)
-});
+// 将顶级await移到async函数中
+async function fetchData() {
+    try {
+        const response = await fetch(endpoint, {
+            // POST 比 GET 更安全，因为 POST 不会将数据暴露在 URL 中，并且会带上请求体
+            method: 'POST',
+            headers,
+            body: JSON.stringify(payload)
+        });
 
-const data = await response.json(); //对象化
+        const data = await response.json(); //对象化
+        document.getElementById('reply').textContent = data.choices[0].message.content;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('reply').textContent = '请求失败，请检查控制台错误';
+    }
+}
 
-document.getElementById('reply').textContent = data.choices[0].message.content;
+// 调用async函数
+fetchData();

@@ -7,8 +7,10 @@
 3. 项目初始化
 
 - 创建一个通用的原生 HTML/CSS/JS 项目
+- vite 全栈脚手架搭建
+  - 帮我初始化vite配置
 
-4. 关于 type="module"
+1. 关于 type="module"
 
 type="module" 是 HTML 中 script 标签的一个属性，用于告诉浏览器：这个脚本是一个 JavaScript 模块（ES Module）。
 
@@ -103,4 +105,10 @@ async function myFunction() {
 * await 只能在 async 函数内部使用。
 
 * 它后面通常跟一个 Promise 对象。如果不是 Promise，JavaScript 会将其包装成一个 resolved 的 Promise。
+
+4. apikey 放到 .env 中，后端行为
+
+前端怎么做呢？
+
+变成一个全栈项目，使用 vite （全栈项目脚手架），环境变量配置。 
 
