@@ -43,9 +43,31 @@ res.json() 是 Response 对象的一个方法，用于读取响应体并将其�
 data 不是 res.json()，而是 res.json() 返回的 Promise 被 resolve 后的结果，也就是服务器返回的 JSON 数据被解析成的 JavaScript 对象（或数组等）。
 
 
-## 关于await
+## 关于async/await
 在 JavaScript 中，await 是用于处理 异步操作的关键字，它必须与 async 一起使用。它的主要作用是暂停当前函数的执行，直到一个 Promise 被 resolve（成功）或 reject（失败），然后继续执行后续代码。
+
 * await 只能在 async 函数内部使用。
 * 它后面通常跟一个 Promise 对象。如果不是 Promise，JavaScript 会将其包装成一个 resolved 的 Promise。
 
+1. 基本概念
+async：用于声明一个函数是异步的。该函数会自动返回一个 Promise，即使 return 一个普通值。
+await：只能在 async 函数内部使用，用于“等待”一个 Promise 完成（resolved 或 rejected），并获取其结果。
+
+1. 基本语法
+
+```javascript
+async function fetchData() {
+const response = await fetch('https://api.example.com/data');
+const data = await response.json();
+return data;
+}
+```
+等价于使用 .then() 的写法：
+
+```javascript
+function fetchData() {
+return fetch('https://api.example.com/data')
+.then(response => response.json());
+}
+```
 
