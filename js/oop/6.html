@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // es6 提供了 class 关键字，让我们可以以 OOP 思想写 JS
+        // 其实只是语法糖，底层仍然是原型式的面向对象
+        class Cat {
+            constructor(name, color){
+                this.name = name;
+                this.color = color;
+            }
+            eat(){
+                console.log('eat jerry');
+            }
+        }
+
+        const cat1 = new Cat('tom', '黑色');
+        console.log(cat1);
+        cat1.eat(); 
+
+        // 检查是否仍然是原型链上的对象
+        console.log(cat1.__proto__); // Cat.prototype
+        console.log(cat1.__proto__.constructor); // Cat 构造函数
+        console.log(cat1.__proto__.__proto__);  // Object.prototype
+        console.log(cat1.__proto__.__proto__.__proto__);  // null
+    </script>
+</body>
+</html>

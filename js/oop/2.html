@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 解决了代码重复的问题
+        // 封装实例化的过程
+        function Cat(name, color) {
+            // this 由运行时环境决定，函数调用方式不同，this 指向也不同
+            console.log(this); // 空对象
+            // 空对象的实例化
+            this.name = name;
+            this.color = color;
+            // 实例化完成，返回实例对象
+        }
+
+        // 普通函数调用的时候，this 指向 window
+        const cat1 = Cat('小白', '白色'); // 只是函数运行，没有返回值
+        console.log(cat1); // undefined
+
+
+        // new Object()，完全是一个空对象{}
+        // 构造函数调用的时候，this 指向实例对象，并且刚开始是一个空对象
+        const cat2 = new Cat('小黄', '黄色');
+        console.log(cat2); // {name: '小黄', color: '黄色'}
+
+        const cat3 = new Cat('小黑', '黑色');
+        console.log(cat3); // {name: '小黑', color: '黑色'}
+
+        // 实例之间的关系有了
+        console.log(cat2.constructor === cat3.constructor); // true 
+    </script>
+</body>
+
+</html>

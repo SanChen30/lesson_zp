@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        function Cat(name, color) {
+            this.name = name;
+            this.color = color;
+        }
+
+        // constructor 在共享属性和方法面前有点孤木难支
+        // prototype 解决浪费和共享
+        Cat.prototype.type = '猫科动物';
+        Cat.prototype.eat = function(){
+            console.log('喜欢jerry');
+        }
+
+        var cat1 = new Cat('tom', '黑色');
+
+        // 判断 cat1 是否是 Cat 构造函数的实例。
+        console.log(cat1 instanceof Cat); // true 因为cat1.__proto__ === Cat.prototype
+
+        // 判断 Cat.prototype 是否在 cat1 的原型链上。
+        console.log(Cat.prototype.isPrototypeOf(cat1)); // true 因为cat1.__proto__ === Cat.prototype
+
+        // 判断 type 属性是否是 cat1 对象自身的（即“自有属性”），而不是从原型链继承来的。
+        console.log(cat1.hasOwnProperty('type')); // false 因为type是共享属性
+        console.log(cat1.hasOwnProperty('name')); // true 因为name是自有属性
+
+        // 检查指定的属性是否存在于对象自身或其原型链中（只要能访问到就算）。
+        console.log('type' in cat1); // true 
+        console.log('name' in cat1); // true 
+    </script>
+</body>
+</html>

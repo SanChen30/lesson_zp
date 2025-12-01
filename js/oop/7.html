@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>继承</title>
+</head>
+<body>
+    <script>
+        function Animal(){
+            this.species = '动物';
+        }
+
+        // apply 用于指定函数运行时 this 的指向
+        function Cat(name, color){
+            // 调用一次函数，绑定 Animal 的 this 到 cat 实例
+            // 只继承了父类的自有属性 species
+            Animal.apply(this); 
+            this.name = name;
+            this.color = color;
+        }
+
+        // 怎么继承？父类的属性和方法我都要
+        const cat1 = new Cat('小白', '白色');
+        console.log(cat1);
+    </script>
+</body>
+</html>

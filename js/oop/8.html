@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prototype 继承</title>
+</head>
+
+<body>
+    <script>
+        function Animal() {
+            this.species = '动物';
+        }
+
+        Animal.prototype = {
+            sayHi: function () {
+                console.log('hi');
+            }
+        }
+
+        function Cat(name, color) {
+            Animal.apply(this); 
+            this.name = name;
+            this.color = color;
+        }
+
+        Cat.prototype = new Animal(); // 指定 Cat 的原型对象为 Animal 的实例
+
+        const cat1 = new Cat('tom', '黑色');
+        console.log(cat1, cat1.__proto__);
+        cat1.sayHi();
+
+    </script>
+</body>
+
+</html>
