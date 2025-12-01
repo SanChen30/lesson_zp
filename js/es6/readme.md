@@ -194,3 +194,91 @@ function foo(...args) {
 foo(1, 2, 3, 4);
 ```
 
+## 关于展开运算符和剩余参数（...）
+
+**记忆口诀：“右边展开，左边收集”**
+
+### 展开运算符（Spread）
+
+1. 用于数组
+   
+```js
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5]; // 展开 arr1
+console.log(arr2); // [1, 2, 3, 4, 5]
+// 数组合并
+const a = [1, 2];
+const b = [3, 4];
+const merged = [...a, ...b]; // [1, 2, 3, 4]
+```
+
+2. 用于函数调用
+```js
+Math.max(...[1, 5, 3]); // 等价于 Math.max(1, 5, 3) → 5
+```
+
+3. 用于对象（ES2018+）
+```js   
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1, c: 3 }; // 浅拷贝 + 扩展
+console.log(obj2); // { a: 1, b: 2, c: 3 }
+
+// 对象合并
+const user = { name: 'Alice' };
+const info = { age: 25 };
+const fullUser = { ...user, ...info }; // { name: 'Alice', age: 25 }
+```
+
+### 剩余参数（Rest）
+
+1. 用于函数参数
+```js
+function sum(first, ...rest) {
+console.log(first); // 第一个参数
+console.log(rest); // 剩下的参数组成的数组
+return rest.reduce((a, b) => a + b, first);
+}
+
+sum(1, 2, 3, 4);
+// first = 1, rest = [2, 3, 4]
+// 返回 10
+```
+
+2. 用于解构赋值
+```js
+const [first, ...others] = [1, 2, 3, 4];
+console.log(first); // 1
+console.log(others); // [2, 3, 4]
+
+const { name, ...rest } = { name: 'Bob', age: 30, city: 'NYC' };
+console.log(name); // 'Bob'
+console.log(rest); // { age: 30, city: 'NYC' }
+```
+
+### 注意事项
+
+1. 浅拷贝：嵌套结构不会被深度复制。
+```js   
+const obj = { a: { b: 1 } };
+const copy = { ...obj };
+copy.a.b = 2;
+console.log(obj.a.b); // 2（原对象也被改了！）
+```
+
+2. 剩余参数必须是最后一个参数
+```js
+function foo(...rest, last) { } // ❌ SyntaxError
+```
+
+3. 对比 arguments vs ...rest
+
+```js       
+// 旧写法（不推荐）
+function oldSum() {
+const args = Array.from(arguments);
+return args.reduce((a, b) => a + b, 0);
+}
+
+// 新写法（推荐）
+const newSum = (...args) => args.reduce((a, b) => a + b, 0);
+```

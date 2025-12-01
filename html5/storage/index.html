@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalStorage Todos</title>
+    <link rel="stylesheet" href="./common.css">
+</head>
+<body>
+    <div class="wrapper">
+        <h2>LOCAL TAPAS</h2>
+        <p></p>
+        <ul class="plates">
+            <li>Loading Tapas...</li>
+        </ul>
+        <form class="add-items">
+            <input 
+            type="text" 
+            placeholder="Item Name" 
+            required
+            name="item"
+            >
+            <input type="submit" value="+ Add Item">
+        </form>
+    </div>
+    <script>
+    const addItems = document.querySelector('.add-items');
+    const itemsList = document.querySelector('.plates');
+    const items = [{
+        text: '给平平同学文章点赞',
+        done: false
+    }];
+    // 函数式封装， 拒绝流程式代码
+    // 封装实现细节，比较难， 封装的人和调用的人是两拨人
+    // 复用
+    // 函数默认值是es6新增
+    // 流程式代码超过10行，一定要封装函数
+    function populateList(plates=[], platesList) {
+        platesList.innerHTML = plates.map((plate, i) => {
+            return `
+                <li>
+                    <input type="checkbox" data-index=${i} id="item${i}"
+                        ${plate.done?'checked':''}
+                    />
+                    <label for="item${i}">${plate.text}</label>
+                </li>
+            `
+        }).join('')
+    }
+
+    function addItem(event) {
+        event.preventDefault(); // 阻止默认行为
+        // 函数执行时会有this 事件处理函数的时候，指向form
+        console.log(this, '////');
+        const text = (this.querySelector('[name=item]')).value.trim();
+        const item = {
+            text,
+            done: false
+        }
+        items.push(item);
+        populateList(items, itemsList);
+
+    }
+    addItems.addEventListener('submit', addItem);
+    populateList(items, itemsList);
+    </script>
+</body>
+</html>

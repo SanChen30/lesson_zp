@@ -40,3 +40,60 @@ const strObj = new String("hello");
 strObj.length;
 strObj = null; //释放
 ```
+
+## 关于截取子串 slice()、substr() 和 substring() 方法的对比
+
+1. String.prototype.slice(start, end)
+语法：str.slice(start, end)
+参数：
+start：开始位置（包含），可以为负数（表示从末尾倒数）。
+end：结束位置（不包含），可选；若省略，则提取到字符串末尾。
+特点：
+支持负索引（如 -1 表示最后一个字符）。
+如果 start > end，返回空字符串。
+
+✅ 推荐使用，语义清晰且支持负数。
+
+```js
+"hello".slice(1, 4); // "ell"
+"hello".slice(-3); // "llo"
+"hello".slice(2); // "llo"
+```
+2. String.prototype.substring(start, end)
+语法：str.substring(start, end)
+参数：
+start：开始位置（包含），不能为负（负数会被视为 0）。
+end：结束位置（不包含），可选。
+特点：
+不支持负索引：负数会被转换为 0。
+如果 start > end，会自动交换两者位置。
+
+⚠️ 行为有点“反直觉”，尤其对负数处理。
+
+```js
+"hello".substring(1, 4); // "ell"
+"hello".substring(4, 1); // "ell"（自动交换）
+"hello".substring(-3); // "hello"（-3 → 0）
+```
+3. String.prototype.substr(start, length)
+语法：str.substr(start, length)
+参数：
+start：开始位置（包含），可为负数。
+length：要提取的字符数量（不是结束位置！），可选。
+特点：
+第二个参数是长度，不是结束索引。
+支持负的 start。
+⚠️ 已废弃（deprecated）：虽然目前浏览器仍支持，但不建议在新代码中使用。
+
+```js
+"hello".substr(1, 3); // "ell"
+"hello".substr(-3, 2); // "ll"
+"hello".substr(2); // "llo"
+```
+📌 注意：MDN 明确指出 substr() 是遗留功能，未来可能被移除。
+
+建议
+优先使用 slice()：语义清晰、支持负数、行为一致。
+避免使用 substr()，因其已被标记为废弃。
+substring() 可用，但需注意其对负数和参数顺序的特殊处理。
+
