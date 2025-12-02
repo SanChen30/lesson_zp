@@ -41,7 +41,10 @@ class LinkedListStack{
     isEmpty(){
         return this.#size === 0;
     }
+    toArray(){
+        
+    }
 }
 
 const stack = new LinkedListStack();
-console.log(stack.size);
+console.log(stack.size); // get 方法，访问私有属性
