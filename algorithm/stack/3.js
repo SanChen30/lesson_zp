@@ -19,7 +19,29 @@ class LinkedListStack{
         // 初始化栈顶指针为空
         this.#stackPeek = null;
     }
+    push(num){
+        const node = new ListNode(num);
+        node.next = this.#stackPeek;
+        this.#stackPeek = node;
+        this.#size++;
+    }
+    peek(){
+        if(!this.#stackPeek) throw new Error('栈为空');
+        return this.#stackPeek.val;
+    }
+    pop(){
+        const num = this.peek();
+        this.#stackPeek = this.#stackPeek.next;
+        this.#size--;
+        return num;
+    }
+    get size(){
+        return this.#size;
+    }
+    isEmpty(){
+        return this.#size === 0;
+    }
 }
 
 const stack = new LinkedListStack();
-// console.log(stack.size); // 私有属性不能被直接访问，undefined
+console.log(stack.size);
