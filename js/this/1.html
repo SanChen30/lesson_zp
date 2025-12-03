@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        'use strict'
+        // bar 是一个对象，定义在全局作用域
+        // 函数在堆内存，变量名在变量环境的栈内存中只是一个引用
+        var bar = {
+            myName: "time.geekbang.com",
+            // 在全局作用域中对象里面的函数，也是在全局定义的
+            printName: function () {
+                // 变量的查找？
+                // 变量的查找规则，找自己，沿着作用域链查找，变量的查找路径
+                // outer 词法作用域链，由声明的位置决定
+                // 自由变量，在函数内部使用，但既不是函数的参数，也不是局部变量，而是来自外层作用域的变量
+                console.log(myName);
+                console.log(bar.myName);
+                console.log(this);
+                console.log(this.myName);
+            }
+        }
+
+        function foo() {
+            let myName = "极客时间";
+            return bar.printName; // foo 返回的只是一个函数引用
+        }
+
+        // 全局块级作用域里词法环境里的变量
+        // 指向 printName 函数的引用
+        var myName = "极客帮"
+        var _printName = foo(); // _printName 是一个函数引用
+        console.log(_printName);
+
+        // 普通函数调用，脱离了对象
+        // 当一个函数不作为对象的方法调用（即“裸调用”），
+        // this 默认绑定到 全局对象（浏览器中是 window，Node.js 中是 global）。
+        _printName(); 
+
+        // 函数作为对象的方法调用，this 绑定到该对象
+        bar.printName(); 
+    </script>
+</body>
+
+</html>
