@@ -30,6 +30,7 @@ class LinkedListStack {
         return this.#stackPeek.val;
     }
     pop() {
+        if(this.isEmpty()) throw new Error('栈为空');    
         const num = this.peek();
         this.#stackPeek = this.#stackPeek.next;
         this.#size--;
