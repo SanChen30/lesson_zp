@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        function extend(Parent, Child){
+            var F = function(){}; // 函数表达式，空函数有开销但不太，是一个中介
+            F.prototype = Parent.prototype;
+            Child.prototype = new F(); // 实例的修改，不会影响到原型对象
+            Child.prototype.constructor = Child;
+        }
+
+        // 父类
+        function Animal(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Animal.prototype.species = '动物';
+        
+        // 子类
+        function Cat(name, age, color){
+            Animal.apply(this,[name, age]);
+            this.color = color;
+        }
+        
+        extend(Animal, Cat);
+
+        Cat.prototype.eat = function() {
+            console.log("eat jerry");
+        }
+
+        const cat = new Cat('加菲猫', 2, '黄色');
+        console.log(cat.species, cat.name, cat.age, cat.color);
+        cat.eat();
+    </script>
+</body>
+</html>

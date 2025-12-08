@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>继承</title>
+</head>
+<body>
+    
+    <script>
+        // 父类
+        function Animal(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Animal.prototype.species = '动物';
+
+        function Cat(name, age, color){
+            // {}空对象 <- this
+            // 构造函数式继承
+            // Animal.call(this, name, age); // 参数列表传递
+            Animal.apply(this,[name, age]);  // 参数数组传递
+            this.color = color;
+        }
+
+        Cat.prototype = Animal.prototype; // 直接继承 prototype, 有什么问题？ 
+        // 引用式赋值，子类会改变父类的 prototype，导致父类的实例的 constructor 指向了子类
+
+        Cat.prototype = new Animal(); // prototype 模式，有什么问题？
+        // 1. 子类的 prototype 指向了父类的实例，子类的实例可以访问父类的属性和方法
+        // 2. 子类的实例的 constructor 指向了父类，不是子类
+        // 3. 子类的实例的 __proto__ 指向了父类的 prototype，不是子类的 prototype
+
+        Cat.prototype.constructor = Cat; // 修复 constructor 指向
+        const cat = new Cat('加菲猫', 2, '黄色');
+        console.log(cat);
+    </script>
+</body>
+</html>

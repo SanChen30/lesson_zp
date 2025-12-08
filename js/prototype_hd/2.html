@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>利用空对象作为中介</title>
+</head>
+
+<body>
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>利用空对象作为中介</title>
+    </head>
+
+    <body>
+        <script>
+            function Animal(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+            Animal.prototype.species = '动物';
+            function Cat(name, age, color) {
+                //{} 空对象 <- this
+                // 构造函数式继承
+                // 手动指定
+                // Animal.call(this, name, age);
+                Animal.apply(this, [name, age]); // 数组传递
+                console.log(this, '////');
+            }
+
+
+            var F = function() {}; // 空函数
+            F.prototype = Animal.prototype;
+            var f = new F();
+            Cat.prototype = f; // F 实例与 F.prototype 是独立的对象
+            Cat.prototype.constructor = Cat; // 修复 constructor 指向，会修改 F 实例的 constructor 但是不会影响 F.prototype 的 constructor
+            console.log(Animal.prototype.constructor);
+            console.log(f.constructor);
+            var cat = new Cat('加菲猫', 2, '黄色');
+            console.log(cat.__proto__);
+            console.log(cat.__proto__.__proto__);
+
+
+            // 传入构造函数
+            // 继承
+            function extend(Child, Parent) {
+                // 引入一个空函数，Function 实例化，不走Object，没有必要把祖师爷请出来
+                // 使用原型链的概念
+                // 目的地是 Parent.prototype
+                // Child.prototype = f , F.prototype = Parent.prototype, f 是 F 的实例
+                // 出发地是 Child.prototype
+                // 最后修改 Child.prototype.constructor 指向 Child
+                // 只会修改 f 的 constructor，不会修改 Parent.prototype 的 constructor
+                // f.__proto__ = F.prototype = Parent.prototype，被保护起来，实例对象与原型对象是分得开的
+            }
+        </script>
+    </body>
+
+    </html>
+</body>
+
+</html>

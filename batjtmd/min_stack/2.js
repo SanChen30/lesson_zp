@@ -21,3 +21,4 @@ MiniStack.prototype.top = function() {
 MiniStack.prototype.getMin = function() {
     
 }
+
