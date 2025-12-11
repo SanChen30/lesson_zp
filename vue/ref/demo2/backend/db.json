@@ -1,0 +1,19 @@
+{
+  "users": [
+  {
+    "id": 1,
+    "name": "张三",
+    "email": "123@qq.com"
+  },
+  {
+    "id": 2,
+    "name": "李四",
+    "email": "456@qq.com"
+  },
+   {
+    "id": 3,
+    "name": "王五",
+    "email": "789@qq.com"
+  }
+]
+}
