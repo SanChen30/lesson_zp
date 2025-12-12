@@ -3,7 +3,7 @@
 // 组件树
 // ? 函数 将 JSX + 逻辑 封装成了一个组件
 // 组件是由 js/css/html 组合起来，完成一个相对独立的功能
-// JSX 负责 UI
+// JSX 负责 UI 
 // use 使用，state 数据状态
 import { useState, createElement } from 'react';
 import './App.css';
