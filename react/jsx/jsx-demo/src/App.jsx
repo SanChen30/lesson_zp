@@ -10,7 +10,7 @@ import './App.css';
 
 function App() {
     // 组件的数据业务、交互等
-    // JSx 还是在 JS 里面, class 是 JS 关键字，所以 class 属性名用 className 代替
+    // JSX 还是在 JS 里面, class 是 JS 关键字，所以 class 属性名用 className 代替
     // const name = "vue";
     // 状态变量 name，初始值为 "vue"
     // setName 是更新 name 状态的函数
