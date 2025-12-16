@@ -1,0 +1,32 @@
+<script setup>
+
+</script>
+
+
+<template>
+<div>
+  <header>
+    <nav>
+      <ul>
+        <!-- app.use(router)之后 vue-router 带给我们的全局组件 -->
+        <li>
+          <router-link to="/">Home</router-link>
+        </li>
+        <li>
+          <router-link to="/about">About</router-link>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <!-- 多个页面的占位符 -->
+    <router-view></router-view>
+  </main>
+  <footer></footer>
+</div>
+</template>
+
+
+<style scoped>
+
+</style>
