@@ -8,7 +8,7 @@ import {
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 
-const routers = [
+const routes = [
     {
         path: '/',
         name: 'Home',
@@ -26,7 +26,7 @@ const router = createRouter({
     // 访问历史 hash 路由 #/about
     history: createWebHashHistory(), 
     // 路由配置数组
-    routes: routers 
+    routes: routes 
 })
 
 export default router; // 导出路由实例
