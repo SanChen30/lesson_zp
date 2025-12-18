@@ -13,7 +13,7 @@
   dev -> test -> production -> dev -> test -> production
   vite 帮我们编译 stylus 为 css，需要指令 npm i -D stylus ，因为 stylus 是只在开发阶段使用的工具。
    - -D 开发依赖，对应 package.json 中的devDependencies
-   - -d 生产依赖，对应 package.json 中的dependencies
+   - -d 开发模式，会将 stylus 安装为生产依赖，对应 package.json 中的dependencies
 
   - react 基建也交给 vite 处理
 
