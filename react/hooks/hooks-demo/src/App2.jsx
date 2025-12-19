@@ -2,6 +2,10 @@ import { useState } from 'react';
 
 export default function App() {
   // 定义一个状态变量 count，初始值为 1
+  // 1. useState(1) 的返回值
+  // useState(1) 返回一个包含两个元素的数组：
+  // - 第一个元素：当前状态的值（初始值为 1）
+  // - 第二个元素：更新状态的函数
   // 数组解构赋值，将 useState(1) 返回的数组解构为 count 和 setCount 两个变量
   // 第一个元素是状态变量 count，第二个元素是更新状态的函数 setCount
   // hook useState 为程序员带来了关键的响应式状态

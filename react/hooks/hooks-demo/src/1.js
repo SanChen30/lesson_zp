@@ -1,7 +1,9 @@
+// 不是纯函数
 function add(nums) {
     return nums.reduce((pre,cur) => pre +cur, 0);
 }
 
+// 纯函数
 const add = function(x, y) {
     return x + y;
 }

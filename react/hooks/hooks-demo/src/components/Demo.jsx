@@ -8,9 +8,8 @@ export default function Demo() {
         }, 1000)
         // 生命周期函数 onMounted onUpdated onUnmounted
         // 卸载
-        // 为什么return了还是一直打印timer？
-        // 因为定时器是异步的，return 函数是在组件卸载前调用，定时器还没有执行完
-        // 和App.jsx中的定时器副作用不同，App.jsx中的定时器副作用是在组件卸载前调用，定时器已经执行完
+        // 当num是偶数时，子组件还在页面上，没有卸载不会执行return清理函数，
+        // 而当num变为奇数时，<Demo /> 被移除 → React 自动调用 return () => {...} → 清理定时器。
         return () => { // 卸载前执行回收
             console.log('remove');
             clearInterval(timer);

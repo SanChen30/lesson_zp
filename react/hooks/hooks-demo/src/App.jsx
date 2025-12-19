@@ -44,8 +44,12 @@ export default function App() {
     }, [num])
     return (
         <>
-        <div onClick={() => setNum(prevNum => prevNum + 1)}>{num}</div>
-        { num % 2 === 0 && <Demo />}
+            {/* 点一下这个 div，num 就加 1。
+            使用 prevNum => prevNum + 1 是为了安全地基于上一次的值更新（避免闭包问题）。 */}
+            <div onClick={() => setNum(prevNum => prevNum + 1)}>{num}</div>
+            {/* 如果 num 是偶数（比如 0, 2, 4...），就显示 <Demo /> 组件；
+            如果是奇数（1, 3, 5...），就不显示（相当于“卸载”了 Demo）。 */}
+            {num % 2 === 0 && <Demo />}
         </>
     )
 }
