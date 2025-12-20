@@ -42,3 +42,22 @@ ref 用于「直接操作 DOM 元素」 → 关注 元素本身（element）
 能否设置值	         直接赋值	               不能设 value，但可清空（dom.value = ''）
 是否双向绑定	       是	                  否（单向：DOM → JS）
 典型操作	        读/写数值	              点击、清空、获取 File 对象
+
+## AI 应用业务开发
+
+1. 数据状态业务，imgUrl
+
+2. coze 工作流调用，看官方文档
+
+3. http post 请求业务
+
+    1) FormData 对象 作用是用于发送表单数据，包括文件上传
+    2) fetch 发送 http 请求
+       - 方法：POST
+       - 头信息：Authorization 令牌
+       - 体：FormData 对象
+    3) code 0 成功，否则 ret.msg 错误信息 `if (ret.code !== 0) { status.value = ret.msg; return; }`
+    4) 成功后，解析 ret.data 为 json 格式 `const data = JSON.parse(ret.data);`
+    5) 从 json 数据中提取图片 url `data.data`
+    6) 赋值给 imgUrl.value `imgUrl.value = data.data;`
+    7) 显示图片 `img :src="imgUrl"`

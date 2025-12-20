@@ -79,6 +79,12 @@ import { ref, onMounted } from 'vue'
 // ref 可以用于标记一个 DOM 对象， 如果要做 DOM 操作，在标签内写入ref属性和状态同名属性值，需要通过 .value 来访问DOM元素
 
 
+// 环境变量
+const patToken = import.meta.env.VITE_PAT_TOKEN;
+const uploadUrl = 'https://api.coze.cn/v1/files/upload';
+const workflowUrl = 'https://api.coze.cn/v1/workflow/run';
+const workflow_id = '7584046122328555530';
+
 // 图片生成模块
 const uniform_number = ref(10);
 const uniform_color = ref('红');
@@ -88,10 +94,73 @@ const style = ref('写实');
 // 数据状态
 const status = ref(''); // 空 -> 上传中 -> 生成中 -> 生成成功
 const imgUrl = ref(''); // 生成的图片url
+
+// 先上传到 coze 服务器，返回 file_id
+const uploadFile = async () => {
+  // post 请求体 http 协议
+  const formData = new FormData(); // 收集表单提交数据
+  const input = uploadImage.value;
+  if(!input.files || input.files.length <= 0) {
+    return;
+  }
+  formData.append('file',input.files[0]); // 请求体里加上了文件
+  // coze 发送 http 请求，上传
+  const res = await fetch(uploadUrl, {
+    method: 'POST',
+    headers: {
+      // 请求头 令牌
+      'Authorization': `Bearer ${patToken}`
+    },
+    body: formData
+  });
+  const ret = await res.json();
+  console.log(ret);
+  if(ret.code !== 0) { // 如果出错了
+    status.value = ret.msg; // msg 错误信息
+    return;
+  }
+  return ret.data.id;
+};
+
 const generate = async () => {
   status.value = '图片上传中...';
-}
+  const file_id = await uploadFile();
+  if (!file_id) return;
+  status.value = "图片上传成功，正在生成..."
 
+  // workflow 调用
+  const parameters = {
+    picture: JSON.stringify({
+      file_id: file_id, // 安全问题
+    }),
+    style: style.value,
+    uniform_color: uniform_color.value,
+    uniform_number: uniform_number.value,
+    position: position.value,
+    shooting_hand: shooting_hand.value,
+  }
+
+  const res = await fetch(workflowUrl, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${patToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      workflow_id,
+      parameters
+    })
+  });
+  const ret = await res.json();
+  if (ret.code !== 0) {
+    status.value = ret.msg;
+    return;
+  }
+  const data = JSON.parse(ret.data);
+  console.log(data);
+  status.value = '';
+  imgUrl.value = data.data;
+};
 
 
 // 图片预览模块
