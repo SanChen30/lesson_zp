@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prototype模式</title>
+</head>
+
+<body>
+    <script>
+        function Animal() {
+            this.species = '动物';
+        }
+        function Cat(name, color) {
+            // {} <- this
+            // 拿到父类的属性
+            this.name = name;
+            this.color = color;
+        }
+
+        // 覆盖
+        // 原型对象由 constructor 和其他属性方法组成
+        // Animal 实例 constructor 指向 Animal 构造函数
+        Cat.prototype = new Animal(); // 副作用
+
+        const cat = new Cat('小黑', '黑色');
+        // 修正 constructor 指向
+        Cat.prototype.constructor = Cat;
+        console.log(cat.species);
+        console.log(cat.__proto__); // Animal {species: '动物'} // cat.__proto__ 指向 Animal 原型对象，没有指回 Cat.prototype
+        console.log(cat.__proto__.constructor); // Cat()
+        console.log(Cat.prototype.constructor); // Cat()
+
+    </script>
+</body>
+
+</html>

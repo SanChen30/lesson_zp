@@ -8,18 +8,39 @@
 <body>
     <script>
         // p 是 promise 的实例
+        // resolve 是 Promise 提供的函数，成功时调用，改变状态为 fulfilled
+        // reject 是 Promise 提供的函数，失败时调用，改变状态为 rejected
+        // resolve 接受的参数，会传递给 then 方法
+        // reject 接受的参数，会传递给 catch 方法
+        // then 方法可以有多个，按顺序执行
+        // catch 方法只能有一个，只能捕获 Promise 中未处理的错误
+        // finally 方法可以有一个，无论 Promise 状态如何，都会执行
         const p = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve('success');
+            // executor 立即执行
+            console.log(111); // 同步
+            // 异步任务，耗时
+            setTimeout(() => { 
+                console.log(222); // 异步，1秒后打印
+                resolve('success'); // 改变状态为 fulfilled
             }, 1000)
         })
+        console.log(333); // 同步
+        console.log(p); // Promise { <pending> }
+        // Promise 有三种状态：pending、fulfilled、rejected，
+        // 初始状态是 pending，
+        // 调用 resolve 方法，状态变成 fulfilled，
+        // 调用 reject 方法，状态变成 rejected，
+        // 状态一旦改变，就不会再改变
         console.log(p.__proto__);
         console.log(p.__proto__ === Promise.prototype);
+
+        // 这个才是异步的
         p.then(data => {
-            console.log(data);
-        })
-        p.catch(err => {
+            console.log(data); // 异步，1秒后打印
+        }).catch(err => {
             console.log(err);
+        }).finally(() => {
+            console.log("finally");
         })
     </script>
 </body>
