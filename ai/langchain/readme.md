@@ -8,7 +8,7 @@ AI 应用开发框架
 
 ## langchain = lang + chain
 
-language model + chain
+language model + chain，n8n,coze 链接起来
 
 chains 是 langchain 中的一个重要概念，它是一个可执行的序列，用于将多个 language model 连接起来，实现复杂的任务。
 
