@@ -8,8 +8,6 @@ import { useTodos } from './hooks/useTodos.js';
 import TodoList from './components/TodoList.jsx';
 import TodoInput from './components/TodoInput.jsx';
 
-
-
 function MouseMove() {
   const { x, y } = useMouse();
   return (

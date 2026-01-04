@@ -16,8 +16,9 @@ chains 是 langchain 中的一个重要概念，它是一个可执行的序列�
 
 - 项目使用 ESM 模块规范
     package.json 中添加 type:module
+1. npm i langchain
 - 项目依赖 langchain 1.2.3 版本
-- pnpm i @langchain/deepseek，LLM 变的可拔插
+2. pnpm i @langchain/deepseek，LLM 变的可拔插
   LLM 性价比、更新换代、频繁变化，langchain 提供了可拔插的接口，方便开发者切换不同的 LLM。
   适配器模式，将不同的 LLM 适配为 langchain 中的标准接口。
   - langchain 统一接口
