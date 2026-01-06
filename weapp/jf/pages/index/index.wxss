@@ -1,0 +1,142 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40rpx;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 100rpx;
+  text-align: center;
+}
+
+.button-group {
+  width: 100%;
+  max-width: 600rpx;
+}
+
+.action-button {
+  width: 100%;
+  height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  margin-bottom: 40rpx;
+  border: none;
+}
+
+.primary-button {
+  background-color: #07c160;
+  color: white;
+}
+
+.default-button {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1rpx solid #ddd;
+}
+
+.action-button:active {
+  opacity: 0.8;
+}
+
+.action-button:last-child {
+  margin-bottom: 0;
+}
+
+/* 模态框样式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 300px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.modal-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 0 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.modal-footer {
+  display: flex;
+  border-top: 1px solid #f0f0f0;
+}
+
+.modal-btn {
+  flex: 1;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  background: none;
+}
+
+.cancel-btn {
+  color: #999;
+  border-right: 1px solid #f0f0f0;
+}
+
+.confirm-btn {
+  color: #07c160;
+}

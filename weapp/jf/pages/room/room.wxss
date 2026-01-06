@@ -1,0 +1,205 @@
+.container {
+  padding: 20rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+  padding-bottom: 200rpx; /* 为浮动按钮留出空间 */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.room-id, .money-ratio {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.player-grid-section {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.player-grid {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.player-item {
+  padding: 10rpx !important;
+}
+
+.player-card {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 12rpx;
+  min-height: 120rpx;
+}
+
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  background-color: #ddd;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.nickname {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.score {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 4rpx;
+}
+
+.positive {
+  color: #ff4444;
+}
+
+.negative {
+  color: #4caf50;
+}
+
+.money {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.history-section {
+  margin-bottom: 20rpx;
+}
+
+.history-list {
+  max-height: 300rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 10rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.fab-container {
+  position: fixed;
+  bottom: 160rpx;
+  right: 40rpx;
+  z-index: 1000;
+}
+
+.fab-button {
+  width: 200rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}
+
+.footer {
+  position: fixed;
+  bottom: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
+  padding: 0 20rpx;
+  z-index: 1000;
+}
+
+.scoring-modal {
+  padding: 40rpx 30rpx 120rpx;
+  min-height: 50vh;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.sum-display {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.sum-status.valid {
+  color: #4caf50;
+}
+
+.sum-status.invalid {
+  color: #ff4444;
+}
+
+.player-scores {
+  margin-bottom: 40rpx;
+}
+
+.player-score-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+}
+
+.player-name {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  margin-right: 20rpx;
+}
+
+.score-input {
+  flex: 1;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+  border-top: 1rpx solid #eee;
+}
+
+.modal-actions .van-button {
+  flex: 1;
+  margin: 0 10rpx;
+}

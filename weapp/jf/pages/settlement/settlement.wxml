@@ -1,0 +1,42 @@
+<view class="container">
+  <view class="header">
+    <text class="title">智能结算</text>
+    <text class="subtitle">最少交易次数，快速清账</text>
+  </view>
+
+  <!-- 结算方案 -->
+  <view class="settlement-section">
+    <text class="section-title">结算方案</text>
+    <van-cell-group class="settlement-list">
+      <van-cell 
+        wx:for="{{settlements}}" 
+        wx:key="index"
+        title="{{item.from}}" 
+        value="{{item.to}}支付{{item.amount}}元"
+        :label="item.description"
+      />
+    </van-cell-group>
+  </view>
+
+  <!-- 玩家当前状态 -->
+  <view class="player-status-section">
+    <text class="section-title">玩家当前状态</text>
+    <van-cell-group class="player-list">
+      <van-cell 
+        wx:for="{{players}}" 
+        wx:key="openid"
+        :title="item.nickname || '玩家'"
+        :value="item.current_score + '分'"
+        :label="'余额: ¥' + (item.current_score * moneyRatio).toFixed(2)"
+      />
+    </van-cell-group>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <van-button type="primary" block bind:tap="copySettlement">复制结算方案</van-button>
+    <van-button type="default" block style="margin-top: 20rpx;" bind:tap="backToRoom">返回房间</van-button>
+  </view>
+
+  <van-toast id="van-toast" />
+</view>

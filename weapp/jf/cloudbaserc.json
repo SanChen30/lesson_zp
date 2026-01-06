@@ -1,0 +1,57 @@
+{
+  "env": "release",
+  "database": {
+    "collections": [
+      {
+        "collectionName": "rooms",
+        "index": [
+          {
+            "indexName": "room_number_index",
+            "ordered": "1",
+            "unique": true
+          },
+          {
+            "indexName": "creator_id_index",
+            "ordered": "1",
+            "unique": false
+          },
+          {
+            "indexName": "status_index",
+            "ordered": "1",
+            "unique": false
+          }
+        ]
+      },
+      {
+        "collectionName": "players",
+        "index": [
+          {
+            "indexName": "room_id_index",
+            "ordered": "1",
+            "unique": false
+          },
+          {
+            "indexName": "openid_index",
+            "ordered": "1",
+            "unique": false
+          }
+        ]
+      },
+      {
+        "collectionName": "records",
+        "index": [
+          {
+            "indexName": "room_id_index",
+            "ordered": "1",
+            "unique": false
+          },
+          {
+            "indexName": "round_number_index",
+            "ordered": "1",
+            "unique": false
+          }
+        ]
+      }
+    ]
+  }
+}

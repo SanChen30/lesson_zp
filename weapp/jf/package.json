@@ -1,0 +1,21 @@
+{
+  "name": "board-game-ledger",
+  "version": "1.0.0",
+  "description": "WeChat Mini Program for Mahjong and Poker Scoring",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wechat",
+    "miniprogram",
+    "scoring",
+    "mahjong",
+    "poker"
+  ],
+  "author": "Developer",
+  "license": "ISC",
+  "dependencies": {
+    "@vant/weapp": "^1.10.11"
+  }
+}

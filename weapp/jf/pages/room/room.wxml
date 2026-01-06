@@ -1,0 +1,91 @@
+<view class="container">
+  <!-- Header -->
+  <view class="header">
+    <text class="room-id">房间号: {{roomInfo.room_number || '加载中...'}}</text>
+    <text class="money-ratio">比例: 1分 = {{roomInfo.money_ratio || 0}}元</text>
+  </view>
+
+  <!-- Player Grid Section -->
+  <view class="player-grid-section">
+    <text class="section-title">当前积分</text>
+    <van-grid :column-num="2" class="player-grid">
+      <van-grid-item 
+        wx:for="{{players}}" 
+        wx:key="openid"
+        class="player-item"
+      >
+        <view class="player-card" slot="content">
+          <image class="avatar" src="{{item.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill" />
+          <view class="player-info">
+            <text class="nickname">{{item.nickname || '玩家'}}</text>
+            <text class="score {{item.current_score >= 0 ? 'positive' : 'negative'}}">{{item.current_score}}</text>
+            <text class="money">¥{{(item.current_score * (roomInfo.money_ratio || 0)).toFixed(2)}}</text>
+          </view>
+        </view>
+      </van-grid-item>
+    </van-grid>
+  </view>
+
+  <!-- History Section -->
+  <view class="history-section">
+    <text class="section-title">历史记录</text>
+    <scroll-view class="history-list" scroll-y="true">
+      <van-cell-group>
+        <van-cell 
+          wx:for="{{records}}" 
+          wx:key="index"
+          title="第{{item.round_number}}轮"
+          :value="{{formatRecord(item.scores)}}"
+        />
+      </van-cell-group>
+    </scroll-view>
+  </view>
+
+  <!-- Floating Action Button -->
+  <view class="fab-container" bind:tap="showScoringModal">
+    <van-button type="primary" class="fab-button" icon="add">记录分数</van-button>
+  </view>
+
+  <!-- Footer -->
+  <view class="footer">
+    <van-button type="danger" block bind:tap="endGame">结算/结束游戏</van-button>
+  </view>
+
+  <!-- Scoring Modal -->
+  <van-popup show="{{showScoring}}" position="bottom" bind:close="hideScoringModal">
+    <view class="scoring-modal">
+      <view class="modal-header">
+        <text class="modal-title">记录本轮分数</text>
+        <text class="sum-display">总和: {{scoreSum}} <text class="sum-status {{scoreSum === 0 ? 'valid' : 'invalid'}}">{{scoreSum === 0 ? '✓' : '✗'}}</text></text>
+      </view>
+      
+      <view class="player-scores">
+        <view class="player-score-item" wx:for="{{players}}" wx:key="openid">
+          <text class="player-name">{{item.nickname || '玩家'}}</text>
+          <van-field
+            type="number"
+            :value="playerScores[item._id]"
+            placeholder="输入分数"
+            bind:change="onScoreChange"
+            :data-player-id="item._id"
+            class="score-input"
+          />
+        </view>
+      </view>
+      
+      <view class="modal-actions">
+        <van-button type="default" bind:tap="hideScoringModal">取消</van-button>
+        <van-button 
+          type="primary" 
+          bind:tap="confirmScores" 
+          disabled="{{scoreSum !== 0}}"
+        >
+          确认 ({{scoreSum === 0 ? '可提交' : '必须为0'}})
+        </van-button>
+      </view>
+    </view>
+  </van-popup>
+
+  <van-dialog id="van-dialog" />
+  <van-toast id="van-toast" />
+</view>

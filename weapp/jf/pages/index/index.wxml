@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="title">Board Game Ledger</view>
+  <view class="subtitle">轻松记录麻将和扑克计分</view>
+  
+  <view class="button-group">
+    <button 
+      class="action-button primary-button" 
+      bind:tap="createRoom"
+    >
+      创建房间
+    </button>
+    
+    <button 
+      class="action-button default-button" 
+      bind:tap="joinRoom"
+    >
+      加入房间
+    </button>
+  </view>
+  
+  <!-- 创建房间模态框 -->
+  <view class="modal" wx:if="{{showCreateModal}}">
+    <view class="modal-overlay" bind:tap="cancelCreate"></view>
+    <view class="modal-content">
+      <view class="modal-header">创建房间</view>
+      <view class="modal-body">
+        <text class="modal-label">设置金钱比例（每分对应金额）</text>
+        <input 
+          class="modal-input" 
+          type="digit" 
+          placeholder="输入金钱比例，例如：1 代表 1 分 = 1 元" 
+          value="{{moneyRatio}}" 
+          bindinput="onMoneyRatioInput"
+        />
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel-btn" bind:tap="cancelCreate">取消</button>
+        <button class="modal-btn confirm-btn" bind:tap="confirmCreate">创建</button>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 加入房间模态框 -->
+  <view class="modal" wx:if="{{showJoinModal}}">
+    <view class="modal-overlay" bind:tap="cancelJoin"></view>
+    <view class="modal-content">
+      <view class="modal-header">加入房间</view>
+      <view class="modal-body">
+        <text class="modal-label">输入6位房间号</text>
+        <input 
+          class="modal-input" 
+          type="number" 
+          placeholder="输入6位房间号" 
+          maxlength="6"
+          value="{{roomNumber}}" 
+          bindinput="onRoomNumberInput"
+        />
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel-btn" bind:tap="cancelJoin">取消</button>
+        <button class="modal-btn confirm-btn" bind:tap="confirmJoin">加入</button>
+      </view>
+    </view>
+  </view>
+</view>
