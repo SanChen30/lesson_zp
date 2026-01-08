@@ -1,84 +1,98 @@
 .container {
-  padding: 20rpx;
-  min-height: 100vh;
-  box-sizing: border-box;
+  padding: 20px;
   background-color: #f5f5f5;
-  padding-bottom: 200rpx; /* 为浮动按钮留出空间 */
+  min-height: 100vh;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20rpx;
-  background-color: #fff;
-  border-radius: 12rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+  padding: 15px 0;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
 }
 
-.room-id, .money-ratio {
-  font-size: 28rpx;
-  color: #333;
-  font-weight: 500;
+.room-title {
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.player-grid-section {
-  margin-bottom: 20rpx;
+.ratio {
+  font-size: 14px;
+  color: #999;
 }
 
 .section-title {
-  display: block;
-  font-size: 32rpx;
+  font-size: 16px;
   font-weight: bold;
+  margin: 20px 0 10px 0;
   color: #333;
-  margin-bottom: 20rpx;
 }
 
 .player-grid {
-  background-color: #fff;
-  border-radius: 12rpx;
-  padding: 20rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
 }
 
 .player-item {
-  padding: 10rpx !important;
+  flex: 0 0 48%;
+  margin-bottom: 20rpx;
 }
 
 .player-card {
-  display: flex;
-  align-items: center;
-  padding: 20rpx;
-  background-color: #f8f8f8;
+  background: #fff;
   border-radius: 12rpx;
-  min-height: 120rpx;
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
 }
 
 .avatar {
   width: 80rpx;
   height: 80rpx;
   border-radius: 50%;
-  margin-right: 20rpx;
-  background-color: #ddd;
+  background: linear-gradient(45deg, #34c759, #4cd964);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
 }
 
 .player-info {
-  flex: 1;
+  width: 100%;
 }
 
 .nickname {
-  display: block;
   font-size: 28rpx;
   color: #333;
+  display: block;
   margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .score {
+  font-size: 24rpx;
+  color: #666;
   display: block;
-  font-size: 36rpx;
+}
+
+.total-score {
+  font-size: 32rpx;
   font-weight: bold;
-  margin-bottom: 4rpx;
+  margin-top: 8rpx;
 }
 
 .positive {
@@ -86,53 +100,127 @@
 }
 
 .negative {
-  color: #4caf50;
-}
-
-.money {
-  display: block;
-  font-size: 24rpx;
-  color: #666;
-}
-
-.history-section {
-  margin-bottom: 20rpx;
+  color: #00aa00;
 }
 
 .history-list {
-  max-height: 300rpx;
-  background-color: #fff;
-  border-radius: 12rpx;
-  padding: 10rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 120px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.history-title {
+  font-weight: bold;
+  color: #333;
+}
+
+.history-content {
+  color: #666;
+  font-size: 14px;
+  word-break: break-all;
 }
 
 .fab-container {
   position: fixed;
-  bottom: 160rpx;
-  right: 40rpx;
-  z-index: 1000;
+  bottom: 100rpx;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 99;
 }
 
 .fab-button {
-  width: 200rpx;
+  width: 80%;
+  max-width: 300px;
   height: 80rpx;
+  background: linear-gradient(45deg, #34c759, #4cd964);
+  color: white;
+  border: none;
   border-radius: 40rpx;
   font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 20rpx rgba(52, 199, 89, 0.4);
+}
+
+.fab-button::after {
+  border: none;
 }
 
 .footer {
   position: fixed;
   bottom: 20rpx;
-  left: 20rpx;
-  right: 20rpx;
-  padding: 0 20rpx;
+  left: 0;
+  right: 0;
+  padding: 0 40rpx;
+  z-index: 99;
+}
+
+.end-game-button {
+  width: 100%;
+  height: 80rpx;
+  background: linear-gradient(45deg, #ff3b30, #ff9500);
+  color: white;
+  border: none;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(255, 59, 48, 0.4);
+}
+
+.end-game-button::after {
+  border: none;
+}
+
+/* Scoring Modal Styles */
+.scoring-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1000;
 }
 
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .scoring-modal {
-  padding: 40rpx 30rpx 120rpx;
-  min-height: 50vh;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 30rpx;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .modal-header {
@@ -140,8 +228,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30rpx;
-  padding-bottom: 20rpx;
-  border-bottom: 1rpx solid #eee;
 }
 
 .modal-title {
@@ -150,21 +236,9 @@
   color: #333;
 }
 
-.sum-display {
+.score-sum {
   font-size: 28rpx;
-  color: #666;
-}
-
-.sum-status.valid {
-  color: #4caf50;
-}
-
-.sum-status.invalid {
   color: #ff4444;
-}
-
-.player-scores {
-  margin-bottom: 40rpx;
 }
 
 .player-score-item {
@@ -172,34 +246,53 @@
   align-items: center;
   margin-bottom: 20rpx;
   padding: 20rpx;
-  background-color: #f8f8f8;
-  border-radius: 8rpx;
+  background-color: #f9f9f9;
+  border-radius: 10rpx;
 }
 
 .player-name {
   flex: 1;
   font-size: 28rpx;
   color: #333;
-  margin-right: 20rpx;
 }
 
 .score-input {
   flex: 1;
+  height: 60rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  text-align: right;
 }
 
 .modal-actions {
   display: flex;
-  justify-content: space-between;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20rpx 30rpx;
-  background-color: #fff;
-  border-top: 1rpx solid #eee;
+  gap: 20rpx;
+  margin-top: 20rpx;
 }
 
-.modal-actions .van-button {
+.modal-btn {
   flex: 1;
-  margin: 0 10rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel-btn {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.confirm-btn {
+  background: linear-gradient(45deg, #34c759, #4cd964);
+  color: white;
+}
+
+.confirm-btn[disabled] {
+  background-color: #cccccc;
+  color: #999;
 }

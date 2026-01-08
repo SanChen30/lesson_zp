@@ -1,153 +1,211 @@
 Page({
   data: {
-    moneyRatio: 1,
-    roomNumber: '',
     showCreateModal: false,
-    showJoinModal: false
+    showJoinModal: false,
+    newRoomId: '',
+    joinRoomId: '',
+    moneyRatio: 1,
+    recentRooms: []
   },
 
-  onLoad: function(options) {
-    // 页面加载时的逻辑
+  onLoad() {
+    this.loadRecentRooms();
   },
 
-  createRoom: function() {
-    // 显示自定义创建房间模态框
-    this.setData({
-      showCreateModal: true,
-      moneyRatio: 1
+  showCreateModal() {
+    this.setData({ showCreateModal: true });
+  },
+
+  hideCreateModal() {
+    this.setData({ 
+      showCreateModal: false,
+      newRoomId: ''
     });
   },
 
-  joinRoom: function() {
-    // 显示自定义加入房间模态框
-    this.setData({
-      showJoinModal: true,
-      roomNumber: ''
+  showJoinModal() {
+    this.setData({ showJoinModal: true });
+  },
+
+  hideJoinModal() {
+    this.setData({ 
+      showJoinModal: false,
+      joinRoomId: ''
     });
   },
 
-  // 输入金钱比例
-  onMoneyRatioInput: function(e) {
-    this.setData({
-      moneyRatio: e.detail.value
-    });
+  onNewRoomIdChange(event) {
+    this.setData({ newRoomId: event.detail.value });
   },
 
-  // 输入房间号
-  onRoomNumberInput: function(e) {
-    this.setData({
-      roomNumber: e.detail.value
-    });
+  onJoinRoomIdChange(event) {
+    this.setData({ joinRoomId: event.detail.value });
   },
 
-  // 确认创建房间
-  confirmCreate: function() {
-    const moneyRatio = parseFloat(this.data.moneyRatio) || 1;
-    this.setData({
-      showCreateModal: false
-    });
-    this.doCreateRoom(moneyRatio);
+  onMoneyRatioChange(event) {
+    this.setData({ moneyRatio: event.detail.value });
   },
 
-  // 确认加入房间
-  confirmJoin: function() {
-    const roomNumber = this.data.roomNumber;
-    if (!roomNumber || roomNumber.length !== 6) {
+  async createRoom() {
+    const roomId = this.data.newRoomId.trim();
+    const moneyRatio = parseFloat(this.data.moneyRatio);
+
+    if (!roomId) {
       wx.showToast({
-        title: '请输入正确的6位房间号',
+        title: '请输入房间号',
         icon: 'none'
       });
       return;
     }
-    this.setData({
-      showJoinModal: false
-    });
-    this.doJoinRoom(roomNumber);
-  },
 
-  // 取消创建
-  cancelCreate: function() {
-    this.setData({
-      showCreateModal: false
-    });
-  },
+    if (isNaN(moneyRatio) || moneyRatio <= 0) {
+      wx.showToast({
+        title: '请输入有效的金钱比例',
+        icon: 'none'
+      });
+      return;
+    }
 
-  // 取消加入
-  cancelJoin: function() {
-    this.setData({
-      showJoinModal: false
-    });
-  },
+    try {
+      wx.showLoading({ title: '创建中...' });
 
-  doCreateRoom: function(moneyRatio) {
-    wx.showLoading({
-      title: '创建中...'
-    });
+      const result = await wx.cloud.callFunction({
+        name: 'createRoom',
+        data: {
+          roomId,
+          moneyRatio
+        }
+      });
 
-    wx.cloud.callFunction({
-      name: 'createRoom',
-      data: {
-        moneyRatio: moneyRatio
-      }
-    }).then(res => {
       wx.hideLoading();
-      if (res.result.success) {
-        wx.showToast({
-          title: '房间创建成功',
-          icon: 'success'
-        });
+
+      if (result.result.success) {
+        // 保存到最近房间
+        this.saveRecentRoom(roomId, 0);
+        
         wx.navigateTo({
-          url: `/pages/room/room?roomId=${res.result.roomId}&creator=true`
+          url: `/pages/room/room?roomId=${roomId}`
         });
       } else {
         wx.showToast({
-          title: res.result.message || '创建失败',
+          title: result.result.message || '创建失败',
           icon: 'none'
         });
       }
-    }).catch(err => {
+    } catch (error) {
+      console.error('创建房间失败:', error);
       wx.hideLoading();
       wx.showToast({
-        title: '网络错误',
+        title: '创建失败',
         icon: 'none'
       });
-      console.error('创建房间失败:', err);
-    });
+    }
   },
 
-  doJoinRoom: function(roomNumber) {
-    wx.showLoading({
-      title: '加入中...'
-    });
+  async joinRoom() {
+    const roomId = this.data.joinRoomId.trim();
 
-    wx.cloud.callFunction({
-      name: 'checkRoom',
-      data: {
-        roomNumber: roomNumber
-      }
-    }).then(res => {
+    if (!roomId) {
+      wx.showToast({
+        title: '请输入房间号',
+        icon: 'none'
+      });
+      return;
+    }
+
+    try {
+      wx.showLoading({ title: '加入中...' });
+
+      const result = await wx.cloud.callFunction({
+        name: 'checkRoom',
+        data: { roomId }
+      });
+
       wx.hideLoading();
-      if (res.result.success) {
-        wx.showToast({
-          title: '加入成功',
-          icon: 'success'
-        });
+
+      if (result.result.success) {
+        // 保存到最近房间
+        this.saveRecentRoom(roomId, result.result.data.player_count || 0);
+        
         wx.navigateTo({
-          url: `/pages/room/room?roomId=${res.result.roomId}&creator=false`
+          url: `/pages/room/room?roomId=${roomId}`
         });
       } else {
         wx.showToast({
-          title: res.result.message || '加入失败',
+          title: result.result.message || '房间不存在',
           icon: 'none'
         });
       }
-    }).catch(err => {
+    } catch (error) {
+      console.error('加入房间失败:', error);
       wx.hideLoading();
       wx.showToast({
-        title: '网络错误',
+        title: '加入失败',
         icon: 'none'
       });
-      console.error('加入房间失败:', err);
-    });
+    }
+  },
+
+  async joinRecentRoom(event) {
+    const roomId = event.currentTarget.dataset.roomId;
+
+    try {
+      wx.showLoading({ title: '加入中...' });
+
+      const result = await wx.cloud.callFunction({
+        name: 'checkRoom',
+        data: { roomId }
+      });
+
+      wx.hideLoading();
+
+      if (result.result.success) {
+        wx.navigateTo({
+          url: `/pages/room/room?roomId=${roomId}`
+        });
+      } else {
+        wx.showToast({
+          title: result.result.message || '房间不存在',
+          icon: 'none'
+        });
+      }
+    } catch (error) {
+      console.error('加入房间失败:', error);
+      wx.hideLoading();
+      wx.showToast({
+        title: '加入失败',
+        icon: 'none'
+      });
+    }
+  },
+
+  saveRecentRoom(roomId, playerCount) {
+    try {
+      let recentRooms = wx.getStorageSync('recentRooms') || [];
+      // 移除已存在的相同房间号
+      recentRooms = recentRooms.filter(room => room.room_number !== roomId);
+      // 添加新房间到开头
+      recentRooms.unshift({
+        room_number: roomId,
+        player_count: playerCount,
+        timestamp: Date.now()
+      });
+      // 只保留最近的10个房间
+      recentRooms = recentRooms.slice(0, 10);
+      wx.setStorageSync('recentRooms', recentRooms);
+      this.setData({ recentRooms });
+    } catch (error) {
+      console.error('保存最近房间失败:', error);
+    }
+  },
+
+  loadRecentRooms() {
+    try {
+      const recentRooms = wx.getStorageSync('recentRooms') || [];
+      this.setData({ recentRooms });
+    } catch (error) {
+      console.error('加载最近房间失败:', error);
+      this.setData({ recentRooms: [] });
+    }
   }
 });

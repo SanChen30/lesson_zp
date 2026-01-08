@@ -1,64 +1,83 @@
 <view class="container">
-  <view class="title">Board Game Ledger</view>
-  <view class="subtitle">轻松记录麻将和扑克计分</view>
-  
-  <view class="button-group">
-    <button 
-      class="action-button primary-button" 
-      bind:tap="createRoom"
-    >
-      创建房间
-    </button>
-    
-    <button 
-      class="action-button default-button" 
-      bind:tap="joinRoom"
-    >
-      加入房间
-    </button>
+  <view class="header">
+    <text class="title">麻将/扑克计分器</text>
+    <text class="subtitle">轻松记录游戏分数，智能结算</text>
   </view>
-  
-  <!-- 创建房间模态框 -->
-  <view class="modal" wx:if="{{showCreateModal}}">
-    <view class="modal-overlay" bind:tap="cancelCreate"></view>
-    <view class="modal-content">
-      <view class="modal-header">创建房间</view>
-      <view class="modal-body">
-        <text class="modal-label">设置金钱比例（每分对应金额）</text>
-        <input 
-          class="modal-input" 
-          type="digit" 
-          placeholder="输入金钱比例，例如：1 代表 1 分 = 1 元" 
-          value="{{moneyRatio}}" 
-          bindinput="onMoneyRatioInput"
-        />
-      </view>
-      <view class="modal-footer">
-        <button class="modal-btn cancel-btn" bind:tap="cancelCreate">取消</button>
-        <button class="modal-btn confirm-btn" bind:tap="confirmCreate">创建</button>
+
+  <view class="actions">
+    <button class="action-btn primary-btn" bind:tap="showCreateModal">创建房间</button>
+    <button class="action-btn secondary-btn" bind:tap="showJoinModal">加入房间</button>
+  </view>
+
+  <view class="history-section" wx:if="{{recentRooms.length > 0}}">
+    <text class="section-title">最近房间</text>
+    <view class="recent-rooms-list">
+      <view class="recent-room-item" wx:for="{{recentRooms}}" wx:key="room_number" bind:tap="joinRecentRoom" data-room-id="{{item.room_number}}">
+        <view class="room-info">
+          <text class="room-number">房间号: {{item.room_number}}</text>
+          <text class="player-count">玩家: {{item.player_count}}人</text>
+        </view>
+        <text class="arrow">></text>
       </view>
     </view>
   </view>
-  
-  <!-- 加入房间模态框 -->
-  <view class="modal" wx:if="{{showJoinModal}}">
-    <view class="modal-overlay" bind:tap="cancelJoin"></view>
+
+  <!-- 创建房间模态框 -->
+  <view class="modal-container" wx:if="{{showCreateModal}}">
+    <view class="modal-overlay" bind:tap="hideCreateModal"></view>
     <view class="modal-content">
-      <view class="modal-header">加入房间</view>
+      <view class="modal-header">
+        <text class="modal-title">创建房间</text>
+      </view>
       <view class="modal-body">
-        <text class="modal-label">输入6位房间号</text>
-        <input 
-          class="modal-input" 
-          type="number" 
-          placeholder="输入6位房间号" 
-          maxlength="6"
-          value="{{roomNumber}}" 
-          bindinput="onRoomNumberInput"
-        />
+        <view class="form-item">
+          <text class="label">房间号</text>
+          <input 
+            class="input" 
+            placeholder="输入房间号" 
+            value="{{newRoomId}}" 
+            bindinput="onNewRoomIdChange" 
+          />
+        </view>
+        <view class="form-item">
+          <text class="label">金钱比例</text>
+          <input 
+            class="input" 
+            placeholder="每分对应金额" 
+            type="number" 
+            value="{{moneyRatio}}" 
+            bindinput="onMoneyRatioChange" 
+          />
+        </view>
       </view>
       <view class="modal-footer">
-        <button class="modal-btn cancel-btn" bind:tap="cancelJoin">取消</button>
-        <button class="modal-btn confirm-btn" bind:tap="confirmJoin">加入</button>
+        <button class="modal-btn cancel-btn" bind:tap="hideCreateModal">取消</button>
+        <button class="modal-btn confirm-btn" bind:tap="createRoom">确认</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加入房间模态框 -->
+  <view class="modal-container" wx:if="{{showJoinModal}}">
+    <view class="modal-overlay" bind:tap="hideJoinModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">加入房间</text>
+      </view>
+      <view class="modal-body">
+        <view class="form-item">
+          <text class="label">房间号</text>
+          <input 
+            class="input" 
+            placeholder="输入房间号" 
+            value="{{joinRoomId}}" 
+            bindinput="onJoinRoomIdChange" 
+          />
+        </view>
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel-btn" bind:tap="hideJoinModal">取消</button>
+        <button class="modal-btn confirm-btn" bind:tap="joinRoom">确认</button>
       </view>
     </view>
   </view>

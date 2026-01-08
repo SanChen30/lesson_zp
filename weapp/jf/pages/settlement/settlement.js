@@ -1,5 +1,3 @@
-import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
-
 Page({
   data: {
     roomId: '',
@@ -12,7 +10,10 @@ Page({
   onLoad(options) {
     const roomId = options.roomId;
     if (!roomId) {
-      Toast('房间ID不能为空');
+      wx.showToast({
+        title: '房间ID不能为空',
+        icon: 'none'
+      });
       return;
     }
     
@@ -32,7 +33,10 @@ Page({
       });
 
       if (!roomResult.result.success) {
-        Toast(roomResult.result.message || '获取房间信息失败');
+        wx.showToast({
+          title: roomResult.result.message || '获取房间信息失败',
+          icon: 'none'
+        });
         return;
       }
 
@@ -46,7 +50,10 @@ Page({
       });
 
       if (!playersResult.result.success) {
-        Toast('获取玩家信息失败');
+        wx.showToast({
+          title: '获取玩家信息失败',
+          icon: 'none'
+        });
         return;
       }
 
@@ -61,7 +68,10 @@ Page({
     } catch (error) {
       console.error('初始化结算失败:', error);
       wx.hideLoading();
-      Toast('计算失败');
+      wx.showToast({
+        title: '计算失败',
+        icon: 'none'
+      });
     }
   },
 
@@ -137,11 +147,17 @@ Page({
       wx.setClipboardData({
         data: settlementText,
         success: () => {
-          Toast('已复制到剪贴板');
+          wx.showToast({
+            title: '已复制到剪贴板',
+            icon: 'success'
+          });
         }
       });
     } else {
-      Toast('暂无结算方案');
+      wx.showToast({
+        title: '暂无结算方案',
+        icon: 'none'
+      });
     }
   },
 
