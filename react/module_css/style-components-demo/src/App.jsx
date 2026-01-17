@@ -9,7 +9,7 @@ border: 1px solid blue;
 padding: 8px 16px;
 border-radius: 4px;
 `
-console.log(Button);
+console.log(Button); // 打印结果是一个函数，函数的参数是props，返回值是一个html元素，元素的样式是根据props来的。
 function App() {
   return (
     <>
