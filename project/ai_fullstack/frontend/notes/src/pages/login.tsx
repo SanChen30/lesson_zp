@@ -1,7 +1,78 @@
+import { useState, useEffect } from 'react';
+import { useUserStore } from '@/store/useUserStore';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label} from '@/components/ui/label';
+import { Loader2 } from 'lucide-react';
+import type { Credentail } from '@/types/index';
+import { useNavigate } from 'react-router-dom';
+
 export default function Login() {
+  const { login } = useUserStore();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<Credentail>({
+    name: '',
+    password: ''
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value
+    }))
+  }
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const name = formData.name.trim();
+    const password = formData.password.trim();
+    if(!name || !password) return ;
+    setLoading(true);
+    try {
+      await login({name, password});
+      // 登录从 history 中移除
+      navigate('/', {replace: true});
+    } catch (err) {
+      console.log(err, '登录失败');
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
-    <div>
-      <h1>登录</h1>
+    <div className="min-h-screen flex flex-col items-center 
+    justify-center p-6 bg-white">
+      <div className="w-full max-w-sm space-y-6">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-bold">登录</h1>
+        </div>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div className="space-y-2">
+            {/* 无障碍访问 for + id ，for 是关键字， React 中需要用 htmlFor 代替 */}
+            <Label htmlFor="name">用户名</Label>
+            <Input 
+            id="name"
+            placeholder="请输入用户名"
+            value={formData.name}
+            onChange={handleChange}
+             />
+          </div>
+          <div className="space-y-2">
+            {/* 无障碍访问 for + id ，for 是关键字， React 中需要用 htmlFor 代替 */}
+            <Label htmlFor="password">密码</Label>
+            <Input 
+            id="password"
+            placeholder="请输入密码"
+            value={formData.password}
+            onChange={handleChange}
+             />
+          </div>
+          <Button type="submit">{loading?(<><Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          登录中...
+          </>):(`立即登录`)}</Button>
+        </form>
+        <Button variant="ghost" className="w-full" onClick={() => navigate('/')}>暂不登录，回到首页</Button>
+      </div>
     </div>
   )
 }

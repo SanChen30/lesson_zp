@@ -1,8 +1,7 @@
 import Mock from 'mockjs'
 
-// 模拟 posts 接口
 const tabs = ["前端","后端","职场","AI","副业","面经","算法"];
-// 模拟 posts 接口返回数据
+
 const posts = Mock.mock({
     'list|45': [ // list 45条数据
         {

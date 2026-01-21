@@ -13,7 +13,7 @@ export const fetchPosts = async (page:number = 1,
             }
         })
         console.log(response);
-        return response.data
+        return response;
     } catch(err) {
 
     } 

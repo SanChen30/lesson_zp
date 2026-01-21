@@ -171,3 +171,69 @@ pnpm i zustand
   - slice 截取数组
   - 返回分页数据
 - **pnpm i axios**
+
+### JWT 登录
+
+- JWT 的工作流程（以登录为例）
+1. 用户提交用户名/密码到服务器。
+2. 服务器验证成功后，生成一个 JWT（含用户 ID、角色、过期时间等），用密钥签名。
+3. 服务器将 JWT 返回给客户端（通常放在响应体或 Authorization: Bearer <token> 头中）。
+4. 客户端存储 JWT（如 localStorage、cookie）。
+5. 后续请求，客户端在 Authorization 头中携带 JWT：
+```js
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxx
+```
+6. 服务器收到后：
+- 验证签名是否合法（防伪造）
+- 检查 exp 是否过期
+- 提取 payload 中的用户信息，无需查数据库（无状态）
+
+- htttp 无状态的
+Cookie Authorization token 身份令牌
+- 颁发令牌 token
+- 安装 jwt 库
+  **pnpm i jsonwebtoken**
+  json 用户身份对象 web 形式 token 令牌
+  用户名+密码 { id:1, name:'admin' } json 加密成一个token
+  请求时，再传来，服务器端 decode 得到用户对象
+
+  - sign 方法 由服务器调用，服务器将用户对象，secret, 过期时间 加密成一个 token
+  - verify 方法 由服务器调用，服务器将 token, secret 解密成用户对象
+  - decode方法，解析请求头，Authorization 头中的 token，服务器拿到用户对象
+
+
+## api 后端接口项目
+
+- **npm install -g @nestjs/cli** 全局安装 NestJS 命令行工具
+- **nest new posts** 新建项目
+
+盖度模块化，依赖注入特性的企业级开发框架
+
+- 数据库
+
+### prisma ORM
+
+将数据库映射成
+
+Table -> 类
+row -> 实例
+props -> props
+psql/mysql sql太专业了，prisma 翻译官
+后端 -> prisma -> sql
+User(service class) === User(table)
+create === Insert
+findMany === Select 
+
+### ORM ObjectRelationMapping 对象关系映射
+
+- **pnpm i prisma**
+
+- **pnpm uninstall prisma**
+
+- **pnpm i prisma@6.19.2**
+
+### Prisma 的初始化流程
+
+- 建数据库
+- prisma 命令行 + @prisma/client(ORM)
+- npx prisma init
