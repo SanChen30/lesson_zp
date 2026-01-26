@@ -18,6 +18,6 @@ export const chatCompletions = async (messages) => {
         });
         return response.data.choices[0].message.content;
     } catch(err) {
-        console.log('ollama 请求失败');
+        console.log('ollama 请求失败', err);
     }
 }
