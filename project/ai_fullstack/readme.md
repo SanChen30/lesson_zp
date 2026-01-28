@@ -1,7 +1,38 @@
 # AI 全栈项目
 
+## 技能点
 
+### react 开发全家桶
+- react + typescript (js超级)
+- react-router-dom (前端路由)
+- zustand (全局状态管理)
+- axios (http 请求库)
 
+### 后端
+- nodejs
+- nestjs 企业级别后端开发框架
+- psql 数据库
+- redis 缓存数据库
+
+### AI
+- langchain
+- coze/n8n
+- LLM
+- trae/cursor
+
+## 项目安排
+- frontend
+- backend
+- ai_server
+- admin 后台管理系统
+
+## react 全家桶
+
+### react-router-dom 
+- 前端路由
+
+早期的前端没有路由，路由由后端负责，前端是切图仔
+前后端分离，前端有独立的（html5）路由，实现页面切换
 
 ## notes AI 全栈项目
 
