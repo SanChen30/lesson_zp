@@ -100,7 +100,36 @@ history 对象，栈结构，每次路由切换，就会在栈中添加一个记
 ## typescript
 
 Javascript 是动态类型语言，类型检查是在运行时进行的，而 typescript 是静态类型语言，类型检查是在编译时进行的。
-强类型静态语言
+ts 是 js 的超集，强类型静态语言
+
+- 安装 ts
+  npm install -g typescript
+- 编译 ts 文件 -> js 文件
+  tsc 2.ts
+- 运行 js 文件
+  node 2.js 
+- 监听 ts 文件变化，自动编译
+  tsc --watch 2.ts
+- ts 的优点
+  - 静态类型
+  - 边写边检测bug
+  - 编译时检查类型错误
+  - 代码建议、文档查看都非常方便
+  - 没有使用变量等垃圾代码提示未使用（console.log()）
+    重构、修改别人的代码
+    干净的代码
+
+1. ts 的数据类型 4.ts
+
+### typescript 实战 todos
+
+## zustand 状态管理库
+
+如果说国家需要有中央银行，那么前端项目就需要中央状态管理系统。zustand \ redux 都是前端状态管理库，但是 zustand 更轻量，更简单，更易用。
+- 组件 = UI + State
+- store 将状态存到 store 仓库中管理
+  全局共享
+- 基于hooks思想实现的
 
 ## notes AI 全栈项目
 
