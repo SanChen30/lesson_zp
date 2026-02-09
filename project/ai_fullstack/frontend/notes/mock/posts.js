@@ -25,13 +25,13 @@ const posts = Mock.mock({
             id: '@increment(1)'
         }
     ]
-}).list
+}).list // 导出 list 数组
 export default [
     {
         url: '/api/posts',
         method: 'get',
         response: ({ query }, res) => {
-            console.log(query);
+            console.log(query); // query 是一个对象，包含了 url 中的查询参数，比如：{ page: '1', limit: '10' }
             const { page = '1', limit = '10' } = query;
             const currentPage = parseInt(page, 10);
             const size = parseInt(limit, 10);

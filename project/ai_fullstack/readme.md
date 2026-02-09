@@ -308,7 +308,7 @@ nestjs 企业级开发，基于 typescript，采用模块化架构和依赖注�
 - 文章系统
 
 - AIGC 功能
-
+  
 - nestjs 后端
 
 ### UI组件库 shadcn
@@ -330,7 +330,7 @@ nestjs 企业级开发，基于 typescript，采用模块化架构和依赖注�
 
     - 配置tailwindcss
 
-    - 在 vite.config.ts 中配置 alias 设置路径别名，在 tsconfig.json 和 tsconfig.app.json 中配置 paths 路径别名
+    - 在 vite.config.ts 中配置 alias 设置路径别名，在 tsconfig.json 中配置 paths 路径别名，在 tsconfig.app.json 中继承 tsconfig.json
       - pnpm i -D @types/node 是为了在 ts 中使用 node 的内置模块 path
 
     - npx shadcn@latest init
@@ -338,7 +338,7 @@ nestjs 企业级开发，基于 typescript，采用模块化架构和依赖注�
     - npx shadcn@latest add button
 
     - npx shadcn@latest add card
-  
+
 npx 是 Node.js 自带的工具，用于临时安装并**执行** npm 包中的命令，无需全局或本地预先安装。
 
 不用预先安装，试用，测试开发人员用，用完会删除
@@ -365,7 +365,17 @@ npx 是 Node.js 自带的工具，用于临时安装并**执行** npm 包中的�
   
 ### ts 的配置
 
-根目录下的 tsconfig.app.json 和 tsconfig.json 配置对象
+根目录下的 tsconfig.json 配置对象
+
+tsconfig.json           # 基础配置（根配置）
+├── tsconfig.app.json   # 应用配置
+├── tsconfig.node.json  # Node.js/构建工具配置
+└── tsconfig.test.json  # 测试配置（可选）
+
+配置文件	                  用途	                典型配置差异
+tsconfig.json	            基础共享配置	          通用编译器选项
+tsconfig.app.json	        前端应用	             "module": "esnext", "jsx": "react-jsx"
+tsconfig.node.json	      构建工具/后端	          "module": "commonjs", 包含 Node.js 类型
 
 - compilerOptions 编译选项对象
   - baseUrl 基础路径
@@ -376,6 +386,7 @@ npx 是 Node.js 自带的工具，用于临时安装并**执行** npm 包中的�
 
 ### 路由
 
+- pnpm i react-router-dom
 - 路由懒加载（性能优化的关键）
 - suspense + lazy 实现路由懒加载
 - 自定义loading组件
@@ -407,7 +418,7 @@ pnpm i zustand
 - 自动播放的功能作为插件引入， shadcn 简单性能好，定制性更好
     useRef 持久化可变的对象
     plugins=[]
-- api 向外暴露 Carsousel 的各种功能
+- api 向外暴露 Carousel 的各种功能
   selectedIndex 私有状态
   api onSelect 方法 改变它
 - 指示点
@@ -441,7 +452,7 @@ pnpm i zustand
 ### mockjs
 
 - 前端接口伪造，开发时候用，上线前切换为后端接口，无缝对接
-- **pnpm i vite-plugin-mock -D**
+- **pnpm i vite-plugin-mock -D** 用来在开发环境下，伪造接口，返回模拟数据
 - 配置 vite.config.ts
   - 引入 mock 插件
   - plugins 数组 加入 mock 插件
@@ -451,7 +462,7 @@ pnpm i zustand
     - prodEnabled 生产环境下关闭 mock 接口
 - vite 启动 mock
 - 前后端确立接口开发文档
-- **pnpm i mockjs**
+- **pnpm i mockjs** 用来随机生成数据
 - mockjs 语法
 - mockPath 新建posts.js
   export default {
