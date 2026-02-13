@@ -24,8 +24,8 @@ export const useUserStore = create<UserState>()(
             console.log(res, '-----');
             // const { token, user } = res.user;
             set({
-                user: res.data.user,
-                token: res.data.token,
+                user: res.user,
+                token: res.token,
                 isLogin: true,
             })
         }

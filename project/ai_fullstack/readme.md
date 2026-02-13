@@ -513,17 +513,19 @@ Cookie Authorization token 身份令牌
 
 ## api 后端接口项目
 
-- **npm install -g @nestjs/cli** 全局安装 NestJS 命令行工具
-- **nest new posts** 新建项目
+- npm install -g @nestjs/cli 全局安装 NestJS 命令行工具
+- nest new posts 新建项目
+- cd posts
+- pnpm i
+- pnpm run start:dev
 
-盖度模块化，依赖注入特性的企业级开发框架
+高度模块化，依赖注入特性的企业级开发框架
 
 - 数据库
 
 ### prisma ORM
 
-将数据库映射成
-
+将数据库映射成对象
 Table -> 类
 row -> 实例
 props -> props
@@ -535,14 +537,44 @@ findMany === Select
 
 ### ORM ObjectRelationMapping 对象关系映射
 
-- **pnpm i prisma**
+- pnpm i prisma
 
-- **pnpm uninstall prisma**
+- pnpm uninstall prisma
 
-- **pnpm i prisma@6.19.2**
+- **pnpm i prisma@6.19.2 -D**
+
+- **pnpm i @prisma/client@6.19.2**
 
 ### Prisma 的初始化流程
 
 - 建数据库
-- prisma 命令行 + @prisma/client(ORM)
+- prisma 命令行 + @prisma/client  ->  (ORM)
 - npx prisma init
+
+### schema 文件
+
+数据库是最重要的，schema 就是数据库的设计稿，让设计稿像文件一样保留了下来
+用model模型类的概念，来描述数据表
+@id     primary key
+@default(@autoincrement())
+@db.VarChar(255)
+@unique
+
+### migrate 数据表的迁移
+
+npx prisma migrate dev --name init_user - > npx prisma migrate dev --name add_posts
+
+- 每个迁移文件，都要描述清楚，做了什么改变
+- 建议命名规范
+init_user
+add_email_field
+add_post_table
+add_index_to_user
+
+- 方便
+- 留下日志
+
+### seeds 数据填充
+
+- 启动 Prisma 可视化数据库管理工具
+**npx prisma studio**

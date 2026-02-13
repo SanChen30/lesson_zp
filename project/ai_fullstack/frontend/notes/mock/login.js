@@ -12,23 +12,23 @@ export default [
             name = name.trim();
             password = password.trim();
             console.log(name, password, "----------");
-            if(name !== 'admin' || password !== '123456') {
-                return {
-                    code: 400, // unauthorized
-                    msg: '用户名或密码错误',
-                    data: null
-                }
-            }
-            if(name === '' || password === '') {
+            if (name === '' || password === '') {
                 return {
                     code: 400, // Bad Request
                     msg: '用户名或密码不能为空',
                     data: null
                 }
             }
+            if (name !== 'admin' || password !== '123456') {
+                return {
+                    code: 401, // unauthorized
+                    msg: '用户名或密码错误',
+                    data: null
+                }
+            }
 
             const token = jwt.sign({
-                user: { 
+                user: {
                     // json 对象
                     id: 1,
                     name: 'admin',
@@ -39,12 +39,12 @@ export default [
                 expiresIn: 86400 * 7 // 7天过期, token 的有效时间
             })
 
-            console.log(token,"----------");
+            console.log(token, "----------");
             return {
                 token,
                 user: {
                     id: 1,
-                    name: "amdin",
+                    name: "admin",
                     avatar: "https://p9-passport.byteacctimg.com/img/user-avatar/09aff03aaa33dd9d311511bcbd12535f~50x50.awebp"
                 }
             }
@@ -63,7 +63,7 @@ export default [
                     code: 200,
                     user: decode.user
                 }
-            }catch(err) {
+            } catch (err) {
                 return {
                     code: 400,
                     message: "invaild token"

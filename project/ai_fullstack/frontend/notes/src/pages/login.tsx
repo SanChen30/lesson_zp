@@ -51,6 +51,7 @@ export default function Login() {
             {/* 无障碍访问 for + id ，for 是关键字， React 中需要用 htmlFor 代替 */}
             <Label htmlFor="name">用户名</Label>
             <Input 
+            type="text"
             id="name"
             placeholder="请输入用户名"
             value={formData.name}
@@ -61,6 +62,7 @@ export default function Login() {
             {/* 无障碍访问 for + id ，for 是关键字， React 中需要用 htmlFor 代替 */}
             <Label htmlFor="password">密码</Label>
             <Input 
+            type="password"
             id="password"
             placeholder="请输入密码"
             value={formData.password}
