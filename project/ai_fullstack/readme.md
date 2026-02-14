@@ -550,6 +550,7 @@ findMany === Select
 - 建数据库
 - prisma 命令行 + @prisma/client  ->  (ORM)
 - npx prisma init
+- npx prisma generate
 
 ### schema 文件
 
@@ -578,3 +579,32 @@ add_index_to_user
 
 - 启动 Prisma 可视化数据库管理工具
 **npx prisma studio**
+
+- 安装 NestJS 的 Express 平台适配器
+**pnpm i @nestjs/platform-express**
+NestJS = 框架逻辑
+Express = 实际处理 HTTP 请求的服务器
+@nestjs/platform-express = 连接两者的桥梁
+
+### DTO Data Transfer Object 数据传输对象
+
+从前端 -> 后端 -> 控制器 -> service transfer 过程
+- dto/post-query.dto.ts
+- dto/post-new.dto.ts
+- class-validator 验证器
+- class-transformer 转换器
+  **pnpm i class-validator class-transformer**
+  验证器，用来验证前端传来的数据是否符合要求
+  转换器，用来将前端传来的数据，转换为我们需要的类型
+将参数的校验，流程化，规范化
+
+- 全局配置
+app.useGlobalPipes(new ValidationPipe({
+  whitelist: true,  
+  forbidNonWhitelisted: true, 
+  transform: true,  
+}))
+
+### @prisma/client
+
+- 怎么给 service 提供 client，代替db
