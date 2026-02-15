@@ -550,7 +550,7 @@ findMany === Select
 - 建数据库
 - prisma 命令行 + @prisma/client  ->  (ORM)
 - npx prisma init
-- npx prisma generate
+
 
 ### schema 文件
 
@@ -563,7 +563,7 @@ findMany === Select
 
 ### migrate 数据表的迁移
 
-npx prisma migrate dev --name init_user - > npx prisma migrate dev --name add_posts
+- npx prisma migrate dev --name init_user - > npx prisma migrate dev --name add_posts
 
 - 每个迁移文件，都要描述清楚，做了什么改变
 - 建议命名规范
@@ -574,6 +574,8 @@ add_index_to_user
 
 - 方便
 - 留下日志
+
+- npx prisma generate
 
 ### seeds 数据填充
 
@@ -608,3 +610,35 @@ app.useGlobalPipes(new ValidationPipe({
 ### @prisma/client
 
 - 怎么给 service 提供 client，代替db
+
+- 文章列表
+  - 背后有多条 sql
+  - count posts 用于分页 total
+  - 文章列表详情
+    title content....
+    - 拿到每篇文章的id   tags
+    - likes 点赞数
+
+- dto 
+  用户提交（query?, body）打理的标准
+- main.js 启用中间件
+  约束：多传的不要，少传的要报错，transform 转换类型
+  class-validator 验证器 属性类型约束的装饰类
+  class-transformer 转换器 类型转换
+  约束 query | body
+
+### prisma 流程
+- prisma 命令行、@prisma/client @6.19.2
+- npx prisma init
+  prisma 文件夹，schema 文件
+  .env 描述 psql 连接的字符串
+- schema 编写 Model （属性、类型、key、关系）
+- npx prisma migrate dev --name init_user
+- npx prisma generate 生成 client 需要的内容 -> generated 文件夹
+- prisma module
+  - 和 nest 融合 
+  - @Global exports
+- 提供 prisma service
+  - 注入 prisma client
+  - 提供数据库操作方法
+- prisma service 注入到 posts service

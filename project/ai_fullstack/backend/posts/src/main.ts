@@ -6,6 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express'
 
 async function bootstrap() {
+  // 底座是基于express
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true
   });
