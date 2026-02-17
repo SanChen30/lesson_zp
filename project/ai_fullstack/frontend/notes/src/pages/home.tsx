@@ -8,10 +8,11 @@ import {
     CardContent
 } from '@/components/ui/card';
 import { useHomeStore } from '@/store/useHomeStore'
-
+import InfiniteScroll from '@/components/ui/infiniteScroll'
+import PostItem from '@/components/PostItem';
 
 export default function Home() {
-    const { banners, loadMore } = useHomeStore();
+    const { banners, loadMore, hasMore, loading, posts } = useHomeStore();
 
     useEffect(() => {
         loadMore();
@@ -43,6 +44,23 @@ export default function Home() {
                             Item {i}
                         </div>
                     ))}
+                </div>
+                <div className="container mx-auto py-8">
+                    <h1 className="text-2xl font-bold mb-6">文章列表</h1>
+                    {/* 通用的滚动到底部加载更多功能 */}
+                    <InfiniteScroll
+                        hasMore={hasMore}
+                        isLoading={loading}
+                        onLoadMore={loadMore}
+                    >
+                        <ul>
+                            {
+                                posts.map(post => (
+                                    <PostItem key={post.id} post={post} />
+                                ))
+                            }
+                        </ul>
+                    </InfiniteScroll>
                 </div>
             </div>
         </>

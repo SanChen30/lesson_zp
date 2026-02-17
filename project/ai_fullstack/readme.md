@@ -563,7 +563,7 @@ findMany === Select
 
 ### migrate 数据表的迁移
 
-- npx prisma migrate dev --name init_user - > npx prisma migrate dev --name add_posts
+- npx prisma migrate dev --name init_user -> npx prisma migrate dev --name add_posts
 
 - 每个迁移文件，都要描述清楚，做了什么改变
 - 建议命名规范
@@ -642,3 +642,57 @@ app.useGlobalPipes(new ValidationPipe({
   - 注入 prisma client
   - 提供数据库操作方法
 - prisma service 注入到 posts service
+
+## 图片懒加载
+- img src http 请求，并发
+  - 需要加载的图片 首页首屏
+  图片用占位图片（小），优先去加载html,css,首屏的显示速度优先
+  - 视图窗口（viewport）之外的图片，不需要加载，等用户滚动到可见区域，再加载
+    onscroll 事件 节流 滚动哪里懒加载进入视窗的图片
+  - 首先实例化 IntersectionObserver 观察者
+  - 观察每个图片
+  - 图片进入视窗，加载图片，停止观察
+    entries 所有被观察的元素
+    entry 每个被观察的元素
+    entry.isIntersecting
+    entry.target
+    dataset.src 替换 src
+    observer.unobserve 取消观察
+    给所有的.lazy 加观察 observer.observe
+
+## 静态服务器
+- service，提供数据，动态
+- 静态资源，html/css/js/img
+- 根目录下的uploads 文件夹，用来存储上传的图片
+- main.ts 配置静态服务器
+  - 第一个参数，静态资源目录 
+  - 第二个参数，配置对象
+    - prefix 访问路径前缀
+  区别于动态资源，不需要controller 提供路由
+  只需要配置一下
+  - app.useStaticAssets 这是 NestJS 提供的方法，用于配置静态资源托管。
+    所谓的“静态资源”是指图片、PDF、视频、CSS 或 JS 文件等不需要后端逻辑处理、直接返回给客户端的文件。
+  - join(process.cwd(), 'uploads') 这部分定义了文件在硬盘上的实际位置：
+    在 Node.js 环境中，join 方法来源于内置的 path 模块。
+      process.cwd()：获取当前项目的根目录路径。
+      'uploads'：项目根目录下名为 uploads 的文件夹。
+      合起来的意思：告诉程序，去根目录下的 uploads 文件夹里找文件。
+  - prefix: '/uploads' 这部分定义了访问路径的前缀（虚拟路径）：
+      '/uploads'：当客户端请求 /uploads 开头的路径时，NestJS 会去 uploads 文件夹里找对应的文件。
+
+### 接口数据格式调整
+- 依据前后端文档格式要求
+- prisma-client 查出数据之后，通过map格式化输出
+- 后端对接口文档的尊重
+
+### 图片懒加载
+- 列表一定要做图片的懒加载
+- react-lazyload 提供了组件 LazyLoad
+  - 安装 pnpm i react-lazyload
+  - 安装 prop-types， pnpm add prop-types
+  - 引入 import LazyLoad from 'react-lazyload'
+  - 使用
+    <LazyLoad>
+      <img loading="lazy" src={post.thumbnail} className="w-full h-full object-cover" />
+    </LazyLoad>
+  - 包着要显示的图片 loading="lazy"

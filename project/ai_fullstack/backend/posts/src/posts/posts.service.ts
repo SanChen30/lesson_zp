@@ -13,7 +13,7 @@ export class PostsService {
         const [total, posts] = await Promise.all([
             this.prisma.post.count(),
             this.prisma.post.findMany({
-                skip, // 跳过几条，从哪开始拿
+                skip, // 从哪开始拿
                 take: limit || 10,  // 拿多少个
                 orderBy: { id: 'desc'},
                 include: { // 关系型的数据
@@ -44,12 +44,39 @@ export class PostsService {
                             likes: true,
                             comments: true
                         }
+                    },
+                    files: {
+                        where: {
+                            mimetype: { 
+                                startsWith: "image/"
+                            }
+                        },
+                        select: {
+                            filename: true,
+                        }
                     }
                 }
             })
         ])
+
+        // 查询数据，再整备一下
+        const data = posts.map(post => ({
+            id: post.id,
+            title: post.title,
+            // 截取 content
+            brief: post.content ? post.content.substring(0, 100) : '',
+            user: {
+                id: post.user?.id,
+                name: post.user?.name,
+                avatar: post.user?.avatars[0]?.filename ? `http://localhost:3000/uploads/avatar/resized/${post.user.avatars[0].filename}-small.jpg` : '',
+            },
+            tags: post.tags.map(t => t.tag.name),
+            totalLikes: post._count.likes,
+            totalComments: post._count.comments,
+            thumbnail: post.files[0]?.filename ? `http://localhost:3000/uploads/resized/${post.files[0].filename}-thumbnail.jpg` : '',
+        }))
         return {
-            items: posts,
+            items: data,
             total: total
         }
     }
