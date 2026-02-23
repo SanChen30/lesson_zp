@@ -696,3 +696,123 @@ app.useGlobalPipes(new ValidationPipe({
       <img loading="lazy" src={post.thumbnail} className="w-full h-full object-cover" />
     </LazyLoad>
   - 包着要显示的图片 loading="lazy"
+
+## InfiniteScroll 组件
+- 通用组件
+  为列表带来分页无限加载的能力
+- 抽象封装能力
+  可定制的列表作为children
+  在children 下面添加一个哨兵节点
+- 使用IntersectionObserver threshold 0.0
+- loadMore loading hasMore 一起放在store中，联结起来
+- 联动启动
+
+## 首页优化
+- 反复切换 首页，其他页面，重复加载
+- 路由的切换，单页应用 SPA Single Page Application
+  React + React-Router
+  快 不会白屏
+  没有前端路由，/  ->  /post/:id ，服务器 后端路由 http 请求 返回完整的html，所以白屏
+  前端负责路由，js 中拿出对应的组件，进行组件卸载，替换
+- 首页太重要了，用户频繁的在首页和其他页面切换
+  首页的不断卸载挂载，重复渲染，不违和
+
+### KeepAlive 组件
+- home 不能卸载，keep alive
+- react-activation
+  cache 缓存 home, 界面和数据保持
+  display: none 离开文档流
+
+- **pnpm i react-activation**
+- KeepAlive + AliveScope  saveScrollPosition="screen" + 在应用入口处包裹 AliveScope
+
+## 登录功能
+- 注册 backend/posts/src/user
+  - password 单向加密存储，单向是指不能解密，防程序员，黑客， 可以确保密码安全
+  - bcrypt 加密存储密码
+    注册时，对密码进行加密，存储到数据库
+    登录时，对密码进行加密，和数据库中的密码进行比较
+    bcrypt 是一个用于安全哈希和验证密码的加密库，具有加盐和自适应计算强度的特点，能有效抵御彩虹表和暴力破解攻击。
+    是单向加密，更准确的说是**单向哈希**，它将密码通过哈希算法（结合随机加盐）装换成一个固定长度的字符串，无法从生成的哈希值反推出原始密码
+    **pnpm i bcrypt**
+
+- 由于之前插入了假数据，导致我们创建用户插入数据表时，会发生id 冲突，因为默认从1开始创建，但插入的假数据里已经有1了，我们只需要在psql中执行这条命令
+- SELECT setval('users_id_seq', (SELECT COALESCE(MAX(id), 0) FROM users));
+
+- 登录
+  cookie 之前的登录解决方案，http 自动带上cookie
+  cookie 比 localStorage 更小的本地存储，只能存储字符串，存身份信息
+  JWT Authorization 字段 axios 请求拦截器加上token
+  轻量级，跨域共享 JSON（用户对象信息 不安全）Web Token(hash 令牌)
+  双向加密，服务端加密，客户端解密
+  身份验证
+- Auth 鉴权模块
+  - @nestjs/jwt 需要安装的，但是是 nestjs 本身提供的 jwt 身份验证模块
+    jwt 协议
+  - JwtService sign
+  - JwtModule Auth模块里需要 import 它，方便注入依赖
+
+### JWT 双token 机制
+
+- mockjs，使用了jsonwebtoken，单 token sign/verify
+- 单token 容易被中间人截获，不安全，双token 机制
+- access_token（有效期短，以分钟为单位） 和 refresh_token（有效期长，以天为单位） 
+  一样具有token 验证的能力（都是 JwtService.signAsync）
+  axios 请求拦截中，在每次请求前，判断 access_token 是否过期
+  如果过期，使用 refresh_token 去请求新的 access_token 和 refresh_token
+  如果 refresh_token 也过期，提示用户重新登录
+- Promise.all 
+  举个例子 nest.js posts 列表查询，count 和 list， Promise.all 并发查询
+  还有 nest.js 双 token 的并行请求 access_token 和 refresh_token
+
+## 错误异常处理模块
+@nestjs/common
+- 后端，错误处理是核心模块。
+  4XX, 400 BadRequest 401 UnAuthorizated
+  5XX, 服务器端错误
+- try {} catch() {...}
+  catch 错误是可以被处理的
+- BadRequestException
+  nestjs 准备了各种异常 
+  各种异常处理类，解决各种问题
+  - return
+  - 400|401|403|500... statusCode message
+
+## 鉴权处理
+- 新增文章，点赞等，需要权限操作，需要先登录
+- access_token, refresh_token 双 token 机制
+  api 请求由 axios 自动带上access_token, 在 Authorization
+- backend posts.controller createPost 方法
+  createPost 需要受到鉴权的保护？ nestjs 提供了 guard 机制
+  req Authorization access_token
+  拿到 user ? @nestjs/jwt verifyAsync
+
+  新增文章，需要先登录，才能发布
+  从 Authorization 中提取 access_token
+  验证 access_token 是否过期
+  如果过期，使用 refresh_token 去请求新的 access_token 和 refresh_token
+  如果 refresh_token 也过期，提示用户重新登录
+  如果 access_token 验证通过，新增文章
+
+### nestjs useGuard 鉴权保护
+UseGuards 是一个装饰器，用于在控制器或路由处理方法上应用守卫
+会在路由处理方法前，先执行Guard函数，鉴权
+如果鉴权失败，返回 401，直接退出
+如果成功，用 jwt verify 出来的对象帮我们添加到 req 对象上
+路由处理方法就可以使用 user 信息
+
+- **pnpm i @nestjs/passport**
+- AuthGuard 是 NestJS 里用 Passport 做认证的一个现成“守门员”。
+  你只要在接口上加个 @UseGuards(AuthGuard('jwt'))，它就会自动检查请求头里的 Token 是否合法，没登录或 Token 无效就直接拦住，不用自己写验证逻辑，省事又安全
+- AuthGuard('jwt') 是由@nestjs/passport 直接提供
+- 报错 Unknow authentication strategy "jwt"
+  jwt 鉴权策略在哪里？
+  会去查找 @nestjs/passport 策略文档
+- PassportStrategy 是 NestJS 提供的一个基类，用于将 Passport.js 的各种认证策略（如 JWT、本地登录等）封装成可被 Nest 注入和使用的策略服务。
+- **pnpm i passport-jwt**
+- jwt 双 token 流程
+  - 双 token 生成 @nestj/jwt
+  - 鉴权 @nestjs/guard UseGuard
+  - 刷新？ refresh
+    post /posts 新增 token
+    UseGuard 返回401 ?

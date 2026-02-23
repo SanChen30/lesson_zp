@@ -18,3 +18,10 @@ export const fetchPosts = async (page:number = 1,
 
     } 
 }
+
+export const createPosts = async () => {
+    return axios.post('/posts', {
+        title: '测试标题',
+        content: '测试内容'
+    })
+}
