@@ -12,6 +12,7 @@ interface UserState {
     user: User | null;
     isLogin: boolean;
     login: (credentails: Credentail) => Promise<void>;
+    logout: () => void;
 }
 
 // 高阶函数 柯里化
@@ -42,7 +43,13 @@ export const useUserStore = create<UserState>()(
                 refreshToken,
                 isLogin: true,
             })
-        }
+        },
+        logout: () => set({
+            accessToken: null,
+            refreshToken: null,
+            user: null,
+            isLogin: false,
+        }),
     }), {
         name: 'user-store',
         partialize: (state) => ({

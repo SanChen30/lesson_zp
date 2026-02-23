@@ -737,7 +737,8 @@ app.useGlobalPipes(new ValidationPipe({
     **pnpm i bcrypt**
 
 - 由于之前插入了假数据，导致我们创建用户插入数据表时，会发生id 冲突，因为默认从1开始创建，但插入的假数据里已经有1了，我们只需要在psql中执行这条命令
-- SELECT setval('users_id_seq', (SELECT COALESCE(MAX(id), 0) FROM users));
+- **SELECT setval('users_id_seq', (SELECT COALESCE(MAX(id), 0) FROM users));**
+- **SELECT setval('posts_id_seq', (SELECT COALESCE(MAX(id), 0) FROM posts));**
 
 - 登录
   cookie 之前的登录解决方案，http 自动带上cookie
@@ -810,9 +811,18 @@ UseGuards 是一个装饰器，用于在控制器或路由处理方法上应用�
   会去查找 @nestjs/passport 策略文档
 - PassportStrategy 是 NestJS 提供的一个基类，用于将 Passport.js 的各种认证策略（如 JWT、本地登录等）封装成可被 Nest 注入和使用的策略服务。
 - **pnpm i passport-jwt**
+  
 - jwt 双 token 流程
   - 双 token 生成 @nestj/jwt
   - 鉴权 @nestjs/guard UseGuard
   - 刷新？ refresh
     post /posts 新增 token
     UseGuard 返回401 ?
+
+### refresh token
+
+- axios 响应拦截，有成功处理函数，如果服务器抛出异常401，执行失败处理函数
+  找到 refresh 入口
+- 在响应拦截器中写刷新token代码逻辑
+
+## AI

@@ -60,7 +60,7 @@ export class AuthService {
             // this.jwtService.signAsync() 签名生成 JWT 字符串 
             // 访问令牌 Access Token (AT)：有效期 15 分钟（"15m"），用于常规 API 请求的身份验证。
             this.jwtService.signAsync(payload,{
-                expiresIn: "1m",
+                expiresIn: "15m",
                 secret: process.env.TOKEN_SECRET
             }),
             // 刷新令牌 Refresh Token (RT)：有效期 7 天（"7d"），用于在 AT 过期后换取新的 AT，避免频繁登录。
