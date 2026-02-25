@@ -1,0 +1,30 @@
+import {
+    IsString,
+    IsArray,
+    ValidateNested,
+    IsNotEmpty
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class MessageDto {
+    @IsString()
+    @IsNotEmpty()
+    role: string;
+
+    @IsString()
+    @IsNotEmpty()
+    content: string;
+}
+
+export class ChatDto {
+    @IsString()
+    @IsNotEmpty()
+    id: string; // 唯一标志，一组对话，用于关联对话历史
+
+    @IsArray()
+    @ValidateNested({ each: true }) // 约定每个元素都是 Message 类型
+    @Type(() => MessageDto)
+    messages: MessageDto[];
+
+
+}

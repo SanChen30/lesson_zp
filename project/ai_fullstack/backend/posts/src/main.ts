@@ -15,7 +15,7 @@ async function bootstrap() {
   // 启用全局验证管道
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,   // 自动过滤 dto 未定义的属性，删除多余字段
-    forbidNonWhitelisted: true, // 遇到未定义的属性直接报错，多传字段直接报错
+    // forbidNonWhitelisted: true, // 遇到未定义的属性直接报错，多传字段直接报错
     transform: true,   // 自动将请求体转换为 dto 实例，自动类型转换
   }))
   // __dirname 是静态的，而 process.cwd() 是动态的。

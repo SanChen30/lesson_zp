@@ -33,12 +33,13 @@ export default function RouterConfig({ children }: { children?: React.ReactNode 
                             <Route path=":id" element={<PostDetail />} />
                         </Route>
 
+                        <Route path="chat" element={<Chat />} />
+
                         {/* 布局组件 */}
                         <Route path="/" element={<MainLayout />}>
                             <Route path="" element={<Home />} />
                             <Route path="mine" element={<Mine />} />
                             <Route path="order" element={<Order />} />
-                            <Route path="chat" element={<Chat />} />
                         </Route>
                     </Routes>
                 </Suspense>

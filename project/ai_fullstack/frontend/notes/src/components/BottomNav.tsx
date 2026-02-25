@@ -26,11 +26,6 @@ export default function BottomNav() {
             icon: ListOrdered
         },
         {
-            label: "聊天",
-            path: "/chat",
-            icon: MessageCircle
-        },
-        {
             label: "我的",
             path: "/mine",
             icon: User

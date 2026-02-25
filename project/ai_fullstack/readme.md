@@ -825,4 +825,32 @@ UseGuards 是一个装饰器，用于在控制器或路由处理方法上应用�
   找到 refresh 入口
 - 在响应拦截器中写刷新token代码逻辑
 
-## AI
+## chatbot
+- 流式输出
+- 向LLM 提出问题 input
+  把LLM 比作函数(参数1...) 百亿
+  LLM 返回 output
+  智能
+  token 生成按 token 来生成
+  token 生成 token 神经网络系统 AIGC tokens 的循环生成
+  流式？
+
+- 前端用户体验
+  响应更快， 打字机一样的效果，像水流逐字输出
+
+- http 请求
+  Connection: keep-alive
+  保持长连接，避免每次请求都要重新建立连接
+  事件监听 
+  SSE Server-Sent Events 服务器发送事件
+  它是一种基于 HTTP 的单向通信技术，允许服务器向客户端（通常是浏览器）推送实时更新。SSE 使用简单的文本格式（通常是 UTF-8 编码），通过一个持久的 HTTP 连接，服务器可以持续发送事件流（event stream）到客户端。
+
+### chatbot hook
+- 将bot 的响应式业务剥离
+- vercel ai-sdk/react
+  ai 前端应用，nextjs(react SSR框架)
+  @ai sdk 封装了 chatbot，快速开发
+  **pnpm i @ai-sdk/react@1.2.12**
+  - chatbot UI、响应式和 AI业务剥离
+- mockjs 流式输出
+  rawResponse 支持流式输出
