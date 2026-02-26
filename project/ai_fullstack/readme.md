@@ -852,5 +852,61 @@ UseGuards 是一个装饰器，用于在控制器或路由处理方法上应用�
   @ai sdk 封装了 chatbot，快速开发
   **pnpm i @ai-sdk/react@1.2.12**
   - chatbot UI、响应式和 AI业务剥离
+  
 - mockjs 流式输出
   rawResponse 支持流式输出
+  - 响应头设置
+    'Content-Type', 'text/plain;charset=utf-8'
+    'Transfer-Encoding', 'chunked'
+    'x-vercel-ai-data-stream', 'v1'
+  - reader.read() 读取响应体
+  - TextDecoder 解码响应体
+  - res.write() 写入响应体
+  - data: [DONE] res.end() 结束响应
+
+- 后端 ai模块 + langchain
+  - model streaming: true 边生成边响应
+  - 前端事件监听 SSE Server Send Event 流式响应 @ai-sdk/react 封装了
+  - 响应头设置
+    Content-Type: text/event-stream
+    Cache-Control: no-cache
+    Connection: keep-alive
+  - const stream = await this.chatModule.stream(langChainMessages);
+    for await (const chunk of stream) {
+
+    }
+
+  - LangChain 为什么不用字符串？
+    LangChain 内部需要：
+    类型	             作用
+    HumanMessage	    用户输入
+    AIMessage	        AI 回复
+    SystemMessage	    系统 Prompt
+    用于：
+    memory
+    agent reasoning
+    tool calling
+
+## 搜索功能
+- mockjs 搜索接口
+  GET
+  /api/search?keyword=编码
+  URL 中包含中文字符（如“前端”）时，必须进行编码，因为 URL 标准（RFC 3986）规定只能使用 ASCII 字符。浏览器或程序会将非 ASCII 字符（如中文）用 UTF-8 编码后转为百分号形式（如 %E5%89%8D%E7%AB%AF）以确保传输过程中不被误解或损坏。因此，访问 http://localhost:5173/api/search?keyword=前端 时，“前端”会被自动编码为%E5%89%8D%E7%AB%AF。
+  JavaScript 内置的全局函数：
+  encodeURI → 编码整个 URI，保留结构符号。
+  encodeURIComponent → 编码 URI 组件（如参数值），更严格。
+  - 字符串匹配
+  - like 模糊匹配
+  - 基于大模型的语义搜索
+    搜前端，不能搜出 vue react，所以需要语义化搜索
+    hello 和 你好 语义相等，但字符串匹配不了
+- 服务器开销比较大
+- 封装了 useDebounce 防抖 hooks
+  - 响应式的 debounce 值
+  - useEffect 清理函数 防抖功能
+  - 专一功能
+  
+### 语义搜索 embedding
+
+hello 你好 文本匹配失败，但语义相似度高
+数学问题，向量的概念，高维世界 1536  
