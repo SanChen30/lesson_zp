@@ -5,8 +5,16 @@ import { MessageDto } from './dto/chat.dto';
 // DeepSeek 的 LangChain Chat 模型
 import { ChatDeepSeek } from '@langchain/deepseek';
 // LangChain 标准消息类型
-import { SystemMessage, HumanMessage, AIMessage} from '@langchain/core/messages';
+import { SystemMessage, HumanMessage, AIMessage } from '@langchain/core/messages';
+import { OpenAIEmbeddings, DallEAPIWrapper } from '@langchain/openai';
+import * as fs from 'fs/promises';
+import path from 'path';
 
+interface Post {
+    title: string,
+    category: string;
+    embedding: number[];
+}
 
 /**
  * 将前端 DTO 消息
@@ -17,7 +25,7 @@ export function convertToLangchainMessages(
 
     return messages.map(msg => {
         // 根据角色转换消息类型
-        switch(msg.role) {
+        switch (msg.role) {
             // 用户消息
             case 'user':
                 return new HumanMessage(msg.content)
@@ -34,6 +42,12 @@ export function convertToLangchainMessages(
     })
 }
 
+export function cosineSimilarity(v1: number[], v2: number[]): number {
+    const dotProduct = v1.reduce((sum, val, i) => sum + val * v2[i], 0);
+    const normV1 = Math.sqrt(v1.reduce((sum, val) => sum + val * val, 0));
+    const normV2 = Math.sqrt(v2.reduce((sum, val) => sum + val * val, 0));
+    return dotProduct / (normV1 * normV2);
+}
 
 /**
  * AIService
@@ -48,9 +62,11 @@ export class AIService {
      * 私有大模型实例
      * 整个 service 生命周期只创建一次 */
     private chatModule: ChatDeepSeek;
+    private embeddings: OpenAIEmbeddings;
+    private imageGenerator: DallEAPIWrapper;
+    private posts: Post[] = [];
 
     constructor() {
-
         /* 初始化 DeepSeek Chat 模型 */
         this.chatModule = new ChatDeepSeek({
             // API 配置
@@ -65,6 +81,39 @@ export class AIService {
             // 开启流式输出（关键）
             streaming: true
         })
+        this.embeddings = new OpenAIEmbeddings({
+            configuration: {
+                apiKey: process.env.OPENAI_API_KEY,
+                baseURL: process.env.OPENAI_BASE_URL
+            },
+            model: 'text-embedding-ada-002',
+        })
+        this.imageGenerator = new DallEAPIWrapper({
+            openAIApiKey: process.env.OPENAI_API_KEY,
+            model: 'dall-e-3',
+            n: 1,
+            size: '1024x1024',
+            quality: 'standard',
+        })
+        this.loadPosts();
+    }
+
+    private async loadPosts() {
+        try {
+            // data 文件一般不会被打包到dist目录下，需要在nest-cli.json中配置
+            // "assets": [
+            //   {
+            //     "include": "data/**/*",
+            //     "outDir": "dist/data"
+            //   }
+            console.log(__dirname, '????????'); //D:\workspace\lesson_zp\project\ai_fullstack\backend\posts\dist\src\ai ????????
+            const filePath = path.join(__dirname, "../../", 'data/data', 'posts-embedding.json');
+            const data = await fs.readFile(filePath, 'utf-8');
+            this.posts = JSON.parse(data);
+        } catch (error) {
+            console.log('Failed to load posts:', error);
+            this.posts = [];
+        }
     }
 
     /**
@@ -103,9 +152,51 @@ export class AIService {
             /**
              * Service 只负责数据处理
              * Controller 决定如何返回 HTTP */
-            if(content) {
+            if (content) {
                 onToken(content);
             }
         }
     }
+
+    async search(keyword: string, topK: number = 3) {
+        const vector = await this.embeddings.embedQuery(keyword);
+        // console.log(vector);
+        const result = this.posts.map(post => ({
+            ...post,
+            similarity: cosineSimilarity(post.embedding, vector)
+        }))
+            .sort((a, b) => b.similarity - a.similarity)
+            .slice(0, topK)
+            .map(item => item.title);
+
+        return {
+            code: 0,
+            data: result
+        }
+    }
+
+    async avatar(name: string) {
+        const imgUrl = await this.imageGenerator.invoke(`
+            你是一位专业头像设计师（Avatar Designer）。
+
+            请根据用户姓名「${name}」，设计一个高质量个人头像。
+
+            要求：
+            - 只出现【一个人物】，禁止多人
+            - 半身或头肩构图（适合头像裁剪）
+            - 正面或微侧面视角
+            - 风格：卡通 + 时尚 + 现代感 + 干净专业
+            - 人物形象亲和、自信、自然微笑
+            - 线条简洁，色彩协调，高级配色
+            - 背景简洁、低干扰，突出人物主体
+            - 画面居中，适合作为社交媒体头像
+            - 高清、细节清晰、无文字、无水印
+
+            整体感觉：
+            年轻、专业、好看、有设计感。
+        `)
+        console.log(imgUrl, 'imgUrl');
+        return imgUrl;
+    }
+
 }

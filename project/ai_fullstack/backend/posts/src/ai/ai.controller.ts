@@ -2,12 +2,15 @@ import {
     Controller,
     Post,
     Body,
-    Res
+    Res,
+    Get,
+    Query,
 } from '@nestjs/common';
 
 import { AIService } from './ai.service';
 import { ChatDto } from './dto/chat.dto';
 import type { Response } from 'express';
+import { SearchDto } from './dto/search.dto';
 
 /**
  * 控制器路由前缀：/ai
@@ -78,5 +81,17 @@ export class AIController {
             // 返回 500
             res.status(500).end();
         }
+    }
+
+    @Get('search')
+    async search(@Query() dto: SearchDto) {
+        const { keyword } = dto;
+        let decoded = decodeURIComponent(keyword);
+        return this.aiService.search(decoded);
+    }
+
+    @Get('avatar')
+    async avatar(@Query('name') name: string) {
+        return this.aiService.avatar(name);
     }
 }
