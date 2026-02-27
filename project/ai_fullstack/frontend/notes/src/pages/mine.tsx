@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/drawer';
 import { Camera, Upload, Sparkles } from 'lucide-react';
 import Loading from '@/components/Loading/index';
+import { useNavigate } from 'react-router-dom';
 
 export default function Mine() {
   const {
@@ -27,6 +28,7 @@ export default function Mine() {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleAction = async (type: string) => {
     setOpen(false);
@@ -110,9 +112,17 @@ export default function Mine() {
             <span>我的订单</span>
             <span className="text-gray-400 text-sm">&gt;</span>
           </div>
-          <div className="flex justify-between items-center py-2 border-b last:border-b-0">
+          <div 
+          onClick={() => navigate('/git')}
+          className="flex justify-between items-center py-2 border-b last:border-b-0">
             <span>AI git 工具</span>
             <span className="text-gray-400 text-sm">&gt;</span>
+          </div>
+          <div 
+          onClick={() => navigate('/rag')}
+          className="flex justify-between items-center py-2 border-b last:border-b-0">
+            <span>RAG</span>
+            <span className="text-gray-400 text-sm">&gt;</span>   
           </div>
         </div>
         <Button

@@ -907,6 +907,35 @@ UseGuards 是一个装饰器，用于在控制器或路由处理方法上应用�
   - 专一功能
   
 ### 语义搜索 embedding
-
 hello 你好 文本匹配失败，但语义相似度高
-数学问题，向量的概念，高维世界 1536  
+数学问题，向量的概念，高维世界 维度：1536维，  
+- demo/embedding-demo 
+  npm init -y
+  pnpm i openai@4.52.3 dotenv@16.6.1
+- openai embeddings.create() 接口
+- fs/promises 文件模块
+  - readFile
+    JSON.parse
+  - writeFile
+    JSON.stringify
+- 向量的相似度计算
+
+## ai
+### RAG
+Retrieval-Augmented Generation。检索增强生成
+1. LLM 可以去检索一些文档（私有知识库 embedding）
+2. 将检索到的内容（相似度），作为上下文交给 prompt，增强 prompt
+3. 交给大模型生成
+- rag 界面，类似 chatbot, 上传文件
+
+### Git AI 工具
+- 提效
+  AI editor
+- 专业
+  让新手和专家一样工作
+  git commit -m ''  用和本轮开发相关，能够表达功能的描述
+  css BEM 国际命名规范
+  大厂规范，Conventional Commits 约定式提交（传统提交）
+  有描述性
+  功能性
+  可读性

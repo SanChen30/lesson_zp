@@ -94,4 +94,13 @@ export class AIController {
     async avatar(@Query('name') name: string) {
         return this.aiService.avatar(name);
     }
+
+    @Post('rag')
+    async rag(@Body('question') question: string) {
+        const answer = await this.aiService.rag(question);
+        return {
+            code: 0,
+            answer
+        }
+    }
 }

@@ -20,6 +20,8 @@ const Chat = lazy(() => import('@/pages/chat.tsx'));
 const PostLayout = lazy(() => import('@/layouts/PostLayout'));
 const PostDetail = lazy(() => import('@/pages/post/index'));
 const SearchPage = lazy(() => import('@/pages/search'));
+const RAG = lazy(() => import('@/pages/rag'));
+const Git = lazy(() => import('@/pages/git'));
 
 export default function RouterConfig({ children }: { children?: React.ReactNode }) {
     return (
@@ -37,6 +39,10 @@ export default function RouterConfig({ children }: { children?: React.ReactNode 
                         <Route path="/chat" element={<Chat />} />
 
                         <Route path="/search" element={<SearchPage />} />
+
+                        <Route path="/rag" element={<RAG />} />
+
+                        <Route path="/git" element={<Git />} />
 
                         {/* 布局组件 */}
                         <Route path="/" element={<MainLayout />}>

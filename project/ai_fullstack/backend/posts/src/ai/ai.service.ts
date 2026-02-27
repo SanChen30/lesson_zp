@@ -9,6 +9,9 @@ import { SystemMessage, HumanMessage, AIMessage } from '@langchain/core/messages
 import { OpenAIEmbeddings, DallEAPIWrapper } from '@langchain/openai';
 import * as fs from 'fs/promises';
 import path from 'path';
+// 向量数据库，ai应用功能的一个核心之一
+import { MemoryVectorStore } from '@langchain/classic/vectorstores/memory';
+import { Document } from '@langchain/core/documents';
 
 interface Post {
     title: string,
@@ -199,4 +202,42 @@ export class AIService {
         return imgUrl;
     }
 
+    async rag(question: string) {
+        // google notebooklm
+        // 知识库 embedding
+        // 内存向量数据库
+        // 向量 -> 向量存储 源文件（Document） this.embeddings(LLM) 结果存储下来
+        const vectorStore = await MemoryVectorStore.fromDocuments(
+            [
+                new Document({
+                    pageContent: "React 是一个用于构建用户界面的JavaScript库"
+                }),
+                new Document({
+                    pageContent: "NestJS 是一个用于构建服务器端应用的 node.js 框架，擅长企业级开发"
+                }),
+                new Document({
+                    pageContent: "RAG 通过检索外部知识增强大模型的回答能力"
+                })
+            ],
+            this.embeddings
+        );
+
+        const docs = await vectorStore.similaritySearch(question, 1);
+        console.log(docs);
+        // LLM chat 的上下文 增强 Augumented
+        // 检索 retrieve
+        const content = docs.map(d => d.pageContent).join('\n');
+        // 增强 Augmented
+        const prompt = `
+        你是一个专业的JS工程师，请基于下面资料回答问题。
+        资料：
+        ${content}
+
+        问题：
+        ${question}
+        `;
+        // 生成 Generate
+        const res = await this.chatModule.invoke(prompt);
+        return res.content;
+    }
 }
