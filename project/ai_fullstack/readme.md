@@ -939,3 +939,7 @@ Retrieval-Augmented Generation。检索增强生成
   有描述性
   功能性
   可读性
+- 使用流程 规范化的操作
+  - git diff 拿到结果
+  - prompt commit
+  - git commit -m ''

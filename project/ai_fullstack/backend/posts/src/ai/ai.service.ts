@@ -12,6 +12,8 @@ import path from 'path';
 // 向量数据库，ai应用功能的一个核心之一
 import { MemoryVectorStore } from '@langchain/classic/vectorstores/memory';
 import { Document } from '@langchain/core/documents';
+import { ChatPromptTemplate } from '@langchain/core/prompts';
+import { StringOutputParser } from '@langchain/core/output_parsers';
 
 interface Post {
     title: string,
@@ -239,5 +241,26 @@ export class AIService {
         // 生成 Generate
         const res = await this.chatModule.invoke(prompt);
         return res.content;
+    }
+
+    async git(diff: string) {
+        const prompt = ChatPromptTemplate.fromMessages([
+            ["system", `你是一个资深代码审核专家。
+                请根据用户提供的 git diff 内容,
+                生成一段符合Conventional Commits 规范的提交日志。
+                要求：
+                1. 格式为<type>(scope):<subject>。
+                2. 保持简洁。
+                3. 不要输出Markdown格式，只输出文本
+            `],
+            ["user", "{diff_content}"]
+        ]);
+        const chain = prompt.pipe(this.chatModule).pipe(new StringOutputParser());
+        const result = await chain.invoke({
+            diff_content: diff
+        })
+        return {
+            result
+        }
     }
 }
