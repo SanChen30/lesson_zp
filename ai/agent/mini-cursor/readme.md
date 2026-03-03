@@ -52,4 +52,10 @@ AI Agent 全栈开发
 - tools
   [read, write, exec]
 - **pnpm i @langchain/openai** 适配了常见的模型
-- 
+
+
+- fs
+  readFile
+  writeFile
+  mkdir
+  readdir
