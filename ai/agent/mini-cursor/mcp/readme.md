@@ -55,3 +55,42 @@ MCP 解决的问题是：
 MCP 的核心作用是：
 
 让大模型可以通过标准协议调用外部工具（文件系统、数据库、终端、API等）。
+
+- 为什么需要 MCP 配置？
+  - 编程 Agent cursor 支持 MCP client
+  - 读取 mcp.json 需要的 mcp tool
+- 手写 MCP tool
+  - tool 的基础上加上 MCP 规范
+  - tool 需要一个 server 容器，@modelcontextprotocol/sdk/server
+  - tool 实现 MCP 协议的 server 端
+  - server.registerTool 注册 tool
+  - server.connect 启动 server，transport 连接到 stdio 或 http
+
+## MCP 三者关系
+
+- MCP Host（宿主）
+    承载 AI Agent/LLM 会话与工具编排的环境。
+
+- MCP Client（客户端，工具适配层）
+    遵循 MCP 协议的“工具接口实现”。
+    Client 是“插座转接头”。Host 只需要会用 MCP 插头，就能驱动各种异构工具。
+
+- MCP Server（服务端，执行层）
+    实际执行工具逻辑的进程/服务。
+
+- 工作流程（端到端链路）
+
+1. 启动与发现：
+  - Host 启动 Agent，会读取配置（manifest、配置文件、或 UI 中的插件列表）。
+  - Host 通过 MCP Client 发现可用工具（工具名、参数 schema、权限说明）。
+  
+2. 调用流程（一次工具调用的标准路径）：
+  - 用户在 Host 里触发任务（或 LLM 规划出需要用某个工具）。
+  - Host 选择相应的 MCP Client，并向其发起调用，请求体含：工具名、参数、上下文片段、会话 ID。
+  - MCP Client 校验参数，按约定协议把请求转发给目标 MCP Server。
+  - MCP Server 执行实际逻辑（访问 API/DB/文件/编译/搜索等），产出结果。
+结果回传：Server → Client → Host → 反馈给 LLM/用户；Host 可做结果持久化、可视化与审计。
+
+3. 错误与恢复：
+  - Client 通常负责把 Server 的错误翻译成统一错误码/结构，便于 Host 做重试、降级或提示用户。
+  - Host 可根据工具声明的幂等性与超时策略决定是否自动重试或切换备用工具。
