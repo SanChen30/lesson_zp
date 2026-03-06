@@ -94,3 +94,15 @@ MCP 的核心作用是：
 3. 错误与恢复：
   - Client 通常负责把 Server 的错误翻译成统一错误码/结构，便于 Host 做重试、降级或提示用户。
   - Host 可根据工具声明的幂等性与超时策略决定是否自动重试或切换备用工具。
+
+## MCP 开发流程
+- new McpServer 创建了 mcp server 实例
+- server.register Tool/Resource/Prompt 名字，描述，函数
+- 通信方式 StdioServerTransport HttpServerTransport
+- host mcp 配置
+
+
+## mcp 直接入住 Agent 程序
+
+- 怎么把 mcp tools 集成到程序里面？
+  mcp 是可拔插的
