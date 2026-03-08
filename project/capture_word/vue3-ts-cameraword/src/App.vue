@@ -4,7 +4,7 @@ import PictureCard from './components/PictureCard.vue';
 import { ref } from 'vue';
 const word = ref('请上传图片');
 const audio = ref('');
-const update = async (imageDate: string) => {
+const update = async (imageDate: string) => { 
   console.log(imageDate);
 }
 const submit = (imageData: string) => {
