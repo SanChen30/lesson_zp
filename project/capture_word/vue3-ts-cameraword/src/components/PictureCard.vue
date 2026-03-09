@@ -28,12 +28,17 @@ const updateImageDate = async (e: Event): Promise<any> => {
     reader.readAsDataURL(file);
     // 读完后会触发 onload 事件
     reader.onload = () => {
-      const data = reader.result as string;  // 读取结果，转成 string 类型
+      const data = reader.result as string;  // 读取结果，类型断言
       imgPreview.value = data;               // 更新预览图（<img :src="imgPreview"> 会显示）
       emit('updateImage', data);             // 把 base64 传给父组件
       resolve(data);                         // Promise 成功完成
     }
   })
+}
+
+const playAudio = () => {
+  const audio = new Audio(props.audio);
+  audio.play();
 }
 </script>
 
@@ -46,7 +51,7 @@ const updateImageDate = async (e: Event): Promise<any> => {
     <div class="word">
       {{ props.word }}
     </div>
-    <div class="playAudio" v-if="props.audio">
+    <div class="playAudio" v-if="props.audio" @click="playAudio">
       <img :src="voiceIcon" alt="play" width="20px" />
     </div>
   </div>
