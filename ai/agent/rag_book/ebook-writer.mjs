@@ -19,6 +19,7 @@ import {
 const COLLECTION_NAME = 'ebook';
 const VECTOR_DIMENSION = 1024;
 const CHUNK_SIZE = 500;
+const CHUNK_OVERLAP = 50;
 const EPUB_FILE = './天龙八部.epub';
 
 const ADDRESS = process.env.MILVUS_ADDRESS;
@@ -116,9 +117,52 @@ async function loadAndProcessEPubStreaming(bookId) {
             const chapterContent = chapter.pageContent;
             console.log(`处理第 ${chapterIndex+ 1}/${documents.length} 章节`);
             const chunks = await textSplitter.splitText(chapterContent);
+            console.log(`拆分为 ${chunks.length} 个片段`);
+            if(chunks.length === 0) {
+                console.log(`跳过空章节\n`);
+                continue;
+            }
+            console.log(`生成向量并插入中...`);
+            const insertedCount = await insertChunksBatch(chunks, bookId, chapterIndex + 1);
+            totalInserted += insertedCount;
+            console.log(`插入 ${insertedCount} 个片段，累计插入 ${totalInserted} 个片段`);
         }
+        console.log(`完成 EPUB 文件加载，共插入 ${totalInserted} 个片段`);
+        return totalInserted;
     } catch (error) {
         console.log('加载 EPUB 文件失败:', error.message);
+        throw error;
+    }
+}
+
+async function insertChunksBatch(chunks, bookId, chapterNum) {
+    try {
+        if(chunks.length === 0) {
+            return 0;
+        }
+        // 性能优化 embedding 并发
+        // 返回结果是符合 schema 的数组
+        const insertData = await Promise.all(
+            chunks.map(async (chunk, chunkIndex) => {
+                const vector = await getEmbeddings(chunk);
+                return {
+                    id: `${bookId}_${chapterNum}_${chunkIndex}`,
+                    book_id: bookId,
+                    book_name: BOOK_NAME,
+                    chapter_num: chapterNum,
+                    index: chunkIndex,
+                    content: chunk,
+                    vector: vector,
+                }
+            })
+        )
+        const insertResult = await client.insert({
+            collection_name: COLLECTION_NAME,
+            data: insertData,
+        })
+        return Number(insertResult.insert_cnt) || 0;
+    } catch (error) {
+        console.log('插入片段失败:', error.message);
         throw error;
     }
 }
