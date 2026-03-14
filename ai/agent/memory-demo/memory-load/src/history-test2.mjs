@@ -26,6 +26,17 @@ async function fileHistoryDemo() {
         sessionId: sessionId,
     })
 
-    console.log(await restoredHistory.getMessages());
+    // console.log(await restoredHistory.getMessages());
+    console.log("[第三轮对话]");
+    const userMessage3 = new HumanMessage("需要哪些食材？");
+    await restoredHistory.addMessage(userMessage3);
+
+    const messages3 = [systemMessage, ...(await restoredHistory.getMessages())];
+    const response3 = await model.invoke(messages3);
+    await restoredHistory.addMessage(response3);
+
+    console.log(`用户: ${userMessage3.content}`);
+    console.log(`助手: ${response3.content}`);
+    console.log(`对话已保存到文件: ${filePath}\n`);
 }
 fileHistoryDemo().catch(console.error);

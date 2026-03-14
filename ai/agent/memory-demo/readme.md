@@ -51,3 +51,17 @@
         /clear
     又能 vibe coding 又能省 token 的 ai 工程师
 
+## FileSystemChatMessageHistory
+- cursor 的 messages history 实现方案
+    -  session 会话 一次会话 有一个主题
+       -  js 八股
+       -  算法题
+       -  手写题
+       -  AI
+       -  计网
+    -  全新主题，就新开一个 session
+    -  持久化存储 messageHistory
+    -  恢复某个 session 继续 chat
+    -  实现了 cursor 的 Memory 的持久化功能理解
+  
+## 截断
