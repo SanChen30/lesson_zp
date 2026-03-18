@@ -36,3 +36,11 @@
     - Store 对象 subscribe 方法
         接收一个函数
     - state 改变的时候，执行这个函数
+- 支持 setState 接收函数，会将之前的状态给它
+- 支持状态合并
+    Object.assign()
+- create 比 createStore 更好理解，减少学习成本
+- 为什么要学习源码
+    - 提升自己的代码能力，学到高级的写法
+    - 了解框架的细节，用好它
+        zustand 性能，useXxxStore 制定需要的状态
