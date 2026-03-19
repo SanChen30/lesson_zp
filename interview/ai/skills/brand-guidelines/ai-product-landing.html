@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaMind AI - 让团队更快交付价值</title>
+    <meta
+      name="description"
+      content="NovaMind AI 是面向产品与工程团队的智能协作平台，帮助你从需求到上线全链路提效。"
+    />
+    <style>
+      :root {
+        --dark: #141413;
+        --light: #faf9f5;
+        --mid-gray: #b0aea5;
+        --light-gray: #e8e6dc;
+        --orange: #d97757;
+        --blue: #6a9bcc;
+        --green: #788c5d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--dark);
+        background: var(--light);
+        font-family: "Lora", Georgia, serif;
+        line-height: 1.6;
+      }
+
+      h1,
+      h2,
+      h3,
+      .logo,
+      .button {
+        font-family: "Poppins", Arial, sans-serif;
+      }
+
+      .container {
+        width: min(1120px, 92%);
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(250, 249, 245, 0.92);
+        border-bottom: 1px solid var(--light-gray);
+        backdrop-filter: blur(6px);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+      }
+
+      .logo {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+
+      .logo span {
+        color: var(--orange);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        font-size: 0.95rem;
+      }
+
+      .nav-links a {
+        color: var(--dark);
+        text-decoration: none;
+      }
+
+      .hero {
+        padding: 72px 0 56px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 40px;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1.15;
+        margin: 0 0 18px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+        color: #2a2a27;
+        max-width: 56ch;
+      }
+
+      .cta-row {
+        margin-top: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .button {
+        display: inline-block;
+        border: 0;
+        border-radius: 10px;
+        padding: 12px 18px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.96rem;
+        transition: transform 0.15s ease, opacity 0.15s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+        opacity: 0.95;
+      }
+
+      .button-primary {
+        background: var(--orange);
+        color: var(--light);
+      }
+
+      .button-secondary {
+        background: var(--light-gray);
+        color: var(--dark);
+      }
+
+      .hero-card {
+        background: var(--dark);
+        color: var(--light);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 18px 40px rgba(20, 20, 19, 0.2);
+      }
+
+      .hero-card h3 {
+        margin-top: 0;
+        font-size: 1.15rem;
+      }
+
+      .metrics {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .metric {
+        background: rgba(232, 230, 220, 0.1);
+        border: 1px solid rgba(232, 230, 220, 0.2);
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      .metric strong {
+        display: block;
+        font-family: "Poppins", Arial, sans-serif;
+        font-size: 1.15rem;
+      }
+
+      .section {
+        padding: 56px 0;
+      }
+
+      .section-heading {
+        margin: 0 0 20px;
+        font-size: clamp(1.5rem, 2.6vw, 2.3rem);
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .feature {
+        border: 1px solid var(--light-gray);
+        border-radius: 14px;
+        padding: 20px;
+        background: #fffefb;
+      }
+
+      .badge {
+        display: inline-block;
+        margin-bottom: 10px;
+        font-family: "Poppins", Arial, sans-serif;
+        font-size: 0.78rem;
+        padding: 5px 10px;
+        border-radius: 999px;
+        color: var(--light);
+      }
+
+      .badge.orange {
+        background: var(--orange);
+      }
+
+      .badge.blue {
+        background: var(--blue);
+      }
+
+      .badge.green {
+        background: var(--green);
+      }
+
+      .feature h3 {
+        margin: 6px 0 8px;
+        font-size: 1.12rem;
+      }
+
+      .testimonials {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .quote {
+        border-left: 4px solid var(--blue);
+        background: #fff;
+        border-radius: 10px;
+        padding: 18px;
+      }
+
+      .quote p {
+        margin: 0 0 8px;
+      }
+
+      .quote cite {
+        color: #55534f;
+        font-style: normal;
+        font-size: 0.92rem;
+      }
+
+      .cta-block {
+        background: var(--light-gray);
+        border-radius: 16px;
+        padding: 28px;
+        text-align: center;
+      }
+
+      footer {
+        padding: 28px 0 44px;
+        color: #5f5d57;
+        font-size: 0.92rem;
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+        }
+
+        .testimonials {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="logo">Nova<span>Mind</span> AI</div>
+        <nav class="nav-links">
+          <a href="#features">能力</a>
+          <a href="#customers">客户案例</a>
+          <a href="#get-started">开始使用</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <div class="hero-grid">
+          <div>
+            <h1>让 AI 成为你团队的第二增长引擎</h1>
+            <p class="hero-subtitle">
+              NovaMind AI 将需求分析、方案生成、代码协作与发布复盘串成一条流畅链路，帮产品和工程团队在同样时间里交付更多业务价值。
+            </p>
+            <div class="cta-row">
+              <a class="button button-primary" href="#get-started">申请产品演示</a>
+              <a class="button button-secondary" href="#features">查看核心能力</a>
+            </div>
+          </div>
+          <aside class="hero-card">
+            <h3>本季度客户平均收益</h3>
+            <div class="metrics">
+              <div class="metric">
+                <strong>43%</strong>
+                需求评审时长下降
+              </div>
+              <div class="metric">
+                <strong>2.1x</strong>
+                从想法到上线加速
+              </div>
+              <div class="metric">
+                <strong>99.9%</strong>
+                服务可用性
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="features" class="section container">
+        <h2 class="section-heading">为 AI 产品团队打造的三大核心能力</h2>
+        <div class="features">
+          <article class="feature">
+            <span class="badge orange">Copilot Workspace</span>
+            <h3>从需求到方案自动联动</h3>
+            <p>
+              自动解析 PRD、会议纪要和用户反馈，生成可执行方案与优先级建议，让产品决策更快落地。
+            </p>
+          </article>
+          <article class="feature">
+            <span class="badge blue">Engineering Agent</span>
+            <h3>工程交付质量可控</h3>
+            <p>
+              基于你团队规范生成代码草案、测试建议与风险提示，减少返工并提升发布稳定性。
+            </p>
+          </article>
+          <article class="feature">
+            <span class="badge green">Insight Dashboard</span>
+            <h3>业务效果实时可见</h3>
+            <p>
+              将增长、留存和研发效率指标统一展示，帮助管理层快速识别高价值策略与瓶颈点。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="customers" class="section container">
+        <h2 class="section-heading">客户怎么评价 NovaMind AI</h2>
+        <div class="testimonials">
+          <blockquote class="quote">
+            <p>
+              “我们把版本规划周期从 2 周压缩到 4 天，团队协作明显更顺畅，跨部门沟通成本大幅下降。”
+            </p>
+            <cite>—— Lily，某 SaaS 公司产品负责人</cite>
+          </blockquote>
+          <blockquote class="quote">
+            <p>
+              “最惊喜的是上线质量，生产故障减少后，团队终于能把时间花在创新而不是救火上。”
+            </p>
+            <cite>—— Aaron，某 AI 创业公司工程总监</cite>
+          </blockquote>
+        </div>
+      </section>
+
+      <section id="get-started" class="section container">
+        <div class="cta-block">
+          <h2 class="section-heading">准备好加速你的 AI 产品增长了吗？</h2>
+          <p>预约 30 分钟演示，获取专属的团队提效方案与试用权限。</p>
+          <div class="cta-row" style="justify-content: center">
+            <a class="button button-primary" href="mailto:hello@novamind.ai">联系销售</a>
+            <a class="button button-secondary" href="#">下载方案白皮书</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © 2026 NovaMind AI. Built with Anthropic brand-guidelines inspired styling.
+    </footer>
+  </body>
+</html>
